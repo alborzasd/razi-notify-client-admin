@@ -1,0 +1,80 @@
+@use '../../assets/scss/vars';
+
+.ProfileCard {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2rem;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+        "image name logout"
+        "image department .";
+    place-items: center center;
+    column-gap: 0.5rem;
+    row-gap: 0.5rem;
+
+    height: 100px;
+    padding: 0.5rem 0;
+
+    // border-top: 1px solid #ddd;
+    // border-bottom: 1px solid #ddd;
+    // background: lighten(vars.$primary-color, 35); 
+    // margin-top: 0.5rem;    
+}
+
+.image {
+    // grid-row: 1 / span 2;
+    grid-area: image;
+
+    width: 80px;
+    height: 80px;
+    border-radius: 8px; 
+    border: 1px solid #ddd;
+    // box-shadow: vars.$box-shadow;
+}
+
+.name, .department {
+    justify-self: start;
+}
+
+.name {
+    grid-area: name;
+    align-self: end;
+
+    font-size: 1rem;
+}
+
+.department {
+    grid-area: department;
+    align-self: start;
+
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.logout {
+    grid-area: logout;
+    align-self: end;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.3rem;
+
+    margin-bottom: 0.1rem;
+    color: vars.$danger-color;
+    border: none;
+    border-radius: 3px;
+    // padding: 1px;
+    background: none;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+    &:hover {
+        color: #fff;
+        background-color: vars.$danger-color;
+    } 
+}

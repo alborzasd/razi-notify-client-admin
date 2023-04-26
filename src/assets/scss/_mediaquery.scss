@@ -1,0 +1,7 @@
+$md: 768px;
+
+@mixin max-md {
+    @media (max-width: $md) {
+        @content;
+    }
+}

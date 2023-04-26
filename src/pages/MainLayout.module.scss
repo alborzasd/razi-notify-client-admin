@@ -1,0 +1,30 @@
+@use '../assets/scss/vars';
+@use '../assets/scss/mediaquery';
+
+.MainLayout {
+    display: grid;
+    grid-template-rows: auto 1fr; // height of topbar is fixed
+    grid-template-columns: auto 1fr; // width of the sidebar is fixed
+    grid-template-areas:
+        "sidebar topbar" 
+        "sidebar page";
+
+    min-height: 500px;
+    height: 100vh;
+
+    @include mediaquery.max-md {
+        position: relative; // for sidebar
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "topbar"
+            "page";
+    }
+
+    background-color: vars.$layout-background-color;
+
+    // outlet is third child
+    & > :nth-child(3) {
+        grid-area: page; // on screen size change, always stay at first row
+    }
+
+}

@@ -1,0 +1,49 @@
+@use '../../assets/scss/vars';
+@use '../../assets/scss/mediaquery';
+
+.Topbar {
+    display: grid;
+    grid-template-columns: 3rem 1fr 3rem;
+    place-items: center;
+    grid-template-areas: "button title .";
+
+    grid-area: topbar;
+
+    height: 2.8rem;
+
+    // z-index: 1; // box shadow on sidebar (and also page)
+
+    background-color: vars.$primary-color;
+    // background-color: vars.$secondary-color;
+    // background-color: darken(vars.$layout-background-color, 40);
+    // background-color: #fff;
+    // background-color: #AD7BE9;
+    // background-color: #5D3891;
+    box-shadow: vars.$box-shadow-3;
+}
+
+.title {
+    grid-area: title;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.sidebarOpen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 2.0rem;
+    height: 2.0rem;
+    font-size: 1.7rem;
+
+    background: none;
+    border: none;
+
+    color: #fff;
+
+    visibility: hidden;
+    @include mediaquery.max-md {
+        visibility: visible;
+    }
+}
