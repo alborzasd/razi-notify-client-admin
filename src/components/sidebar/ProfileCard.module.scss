@@ -3,26 +3,23 @@
 .ProfileCard {
     display: grid;
     grid-template-columns: 1fr 2fr 2rem;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto auto auto;
     grid-template-areas: 
         "image name logout"
-        "image department .";
+        "image jobTitle jobTitle"
+        "image department department";
     place-items: center center;
     column-gap: 0.5rem;
-    row-gap: 0.5rem;
+    // row-gap: 0.5rem;
 
-    height: 100px;
-    padding: 0.5rem 0;
-
-    // border-top: 1px solid #ddd;
-    // border-bottom: 1px solid #ddd;
-    // background: lighten(vars.$primary-color, 35); 
-    // margin-top: 0.5rem;    
+    // height: 100px;
+    padding: 0.5rem 0; 
 }
 
 .image {
     // grid-row: 1 / span 2;
     grid-area: image;
+    align-self: start;
 
     width: 80px;
     height: 80px;
@@ -31,24 +28,35 @@
     // box-shadow: vars.$box-shadow;
 }
 
-.name, .department {
+.name, .department, .jobTitle {
     justify-self: start;
+
+    // width: 100%;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // white-space: nowrap;
 }
+
+.department, .jobTitle {
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.8);
+}
+
 
 .name {
     grid-area: name;
     align-self: end;
-
+    
     font-size: 1rem;
+}
+
+.jobTitle {
+    grid-area: jobTitle;    
 }
 
 .department {
     grid-area: department;
-    align-self: start;
-
-    font-size: 0.9rem;
-    font-weight: normal;
-    color: rgba(0, 0, 0, 0.8);
 }
 
 .logout {

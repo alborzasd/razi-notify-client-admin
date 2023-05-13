@@ -1,0 +1,35 @@
+@use '../../assets/scss/vars';
+
+.LoginPage {
+    display: grid;
+    place-items: center;
+
+    background-color: vars.$layout-background-color;
+    height: 100vh;
+}
+
+.container {
+    display: grid;
+    grid-template-rows: 3rem 1fr;
+
+    max-width: 400px;
+    width: 80%;
+    // height: 350px;
+    background: #fff;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: vars.$box-shadow-form;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0.5rem;
+
+    color: #fff;
+    font-size: 1.2rem;
+    background: vars.$primary-color;
+}
+

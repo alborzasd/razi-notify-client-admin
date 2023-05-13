@@ -1,5 +1,10 @@
 import styles from './MainLayout.module.scss';
 
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+
+import { statusEnum } from '../redux/authSlice';
+
 // import {useState} from 'react';
 import SidebarStateProvider from '../contexts/SidebarStateProvider';
 // TODO: prevent rerender outlet when sidebar state changes
@@ -10,9 +15,10 @@ import Sidebar from '../components/sidebar/Sidebar';
 
 function MainLayout() {
 
-    // const [sidebarIsActive, setSidebarIsActive] = useState(false);
-    // const openSidebar = () => setSidebarIsActive(true);
-    // const closeSidebar = () => setSidebarIsActive(false);
+    const {status} = useSelector(state => state.auth);
+    if(status !== statusEnum.LOGGED_IN){
+        return <Navigate to='/login' replace />;
+    }
 
     return (
         <div className={styles.MainLayout}>

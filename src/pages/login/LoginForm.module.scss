@@ -1,0 +1,84 @@
+@use '../../assets/scss/vars';
+
+.LoginForm {
+    display: grid;
+    row-gap: 0.5rem;
+    align-content: start;
+
+    padding: 1rem;
+}
+
+.formGroup {
+    display: grid;
+    grid-template-rows: 2rem 2.5rem auto;
+    grid-template-areas: 
+        "label"
+        "input"
+        "error";
+    row-gap: 0.2rem;
+}
+
+.label {
+    grid-area: label;
+    align-self: center;
+
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    // font-size: 1rem;
+    font-weight: bold;
+    color: #444;
+}
+
+.icon {
+    font-size: 1.2rem;
+    color: vars.$primary-color;
+}
+
+.error {
+    color: vars.$danger-color;
+    font-size: 0.8rem;
+    min-height: 1.2rem;
+}
+
+.input {
+    grid-area: input;
+
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    padding: 0 0.5rem;
+    transition: 0.05s;
+    &:focus{
+        outline: vars.$input-focus-outline;
+    }
+}
+
+.button {
+    justify-self: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 2.5rem;
+    width: 60%;
+    margin-top: 1rem;
+
+    border: none;
+    background-color: vars.$primary-color;
+    color: #fff;
+    font-size: 1.1rem;
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    &:active, &:focus {
+        outline: vars.$input-focus-outline;
+    }
+    &:disabled {
+        cursor: auto;
+        background-color: rgba(vars.$primary-color, 0.5);
+    }
+}

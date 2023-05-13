@@ -4,6 +4,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
+import store from './redux/store';
+import { Provider } from 'react-redux';
+
+import CustomToastContainer from './components/shared/CustomToastContainer';
+
+import App from './App';
+import LoginPage from './pages/login/LoginPage';
 import MainLayout from './pages/MainLayout';
 import NotFoundPage from './pages/not-found/NotFoundPage';
 import HomePage from './pages/home/HomePage';
@@ -13,21 +20,33 @@ import UsersPage from './pages/users/UsersPage';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />,
+    element: <App />,
     errorElement: <NotFoundPage />,
     children: [
+
+      {
+        path: '/login',
+        element: <LoginPage />
+      },
       {
         path: '/',
-        element: <HomePage />
-      },
-      {
-        path: '/channels',
-        element: <ChannelsPage />
-      },
-      {
-        path: '/users',
-        element: <UsersPage />
-      },
+        element: <MainLayout />,
+        children: [
+          {
+            path: '/',
+            element: <HomePage />
+          },
+          {
+            path: '/channels',
+            element: <ChannelsPage />
+          },
+          {
+            path: '/users',
+            element: <UsersPage />
+          },
+        ]
+      }
+
     ]
   }
 ]);
@@ -35,7 +54,10 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+    <CustomToastContainer />
   </React.StrictMode>
 );
 

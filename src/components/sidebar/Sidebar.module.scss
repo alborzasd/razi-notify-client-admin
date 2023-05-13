@@ -3,7 +3,7 @@
 
 .Sidebar {
     display: grid;
-    grid-template-rows: 100px 1rem 1fr;
+    grid-template-rows: auto 1rem 1fr;
     align-items: center;
     row-gap: 0.5rem;
 
@@ -18,7 +18,7 @@
     border-left: 1px solid #ddd;
     padding: 0 0.5rem;
 
-    box-shadow: vars.$box-shadow-5;
+    box-shadow: vars.$box-shadow-sidebar;
 
     position: relative; // for toggler button
     right: 0;
