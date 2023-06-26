@@ -9,10 +9,12 @@
         "sidebar topbar" 
         "sidebar page";
 
-    min-height: 500px;
-    height: 100vh;
+    min-height: max(vars.$main-layout-min-height, 100vh); // my head is blowing at this line :)
+    // height: 100vh;
 
-    @include mediaquery.max-md {
+    position: relative;
+
+    @include mediaquery.sidebar {
         position: relative; // for sidebar
         grid-template-columns: 1fr;
         grid-template-areas: 
@@ -24,7 +26,7 @@
 
     // outlet is third child
     & > :nth-child(3) {
-        grid-area: page; // on screen size change, always stay at first row
+        grid-area: page;
     }
 
 }

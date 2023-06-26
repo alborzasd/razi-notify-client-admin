@@ -15,6 +15,7 @@ import MainLayout from './pages/MainLayout';
 import NotFoundPage from './pages/not-found/NotFoundPage';
 import HomePage from './pages/home/HomePage';
 import ChannelsPage from './pages/channels/ChannelsPage';
+import ChannelDetailsPage from './pages/channels/details/ChannelDetailsPage';
 import UsersPage from './pages/users/UsersPage';
 
 const router = createBrowserRouter([
@@ -38,7 +39,11 @@ const router = createBrowserRouter([
           },
           {
             path: '/channels',
-            element: <ChannelsPage />
+            element: <ChannelsPage />,
+          },
+          {
+            path: '/channels/:identifier',
+            element: <ChannelDetailsPage />
           },
           {
             path: '/users',
@@ -53,11 +58,11 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+    <>
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
     <CustomToastContainer />
-  </React.StrictMode>
+    </>
 );
 

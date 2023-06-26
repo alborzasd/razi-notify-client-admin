@@ -1,0 +1,70 @@
+@use '../../assets/scss/vars';
+@use '../../assets/scss/mediaquery';
+
+.TableTools {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    column-gap: 1rem;
+    grid-template-areas: 
+        "buttonGroup . refresh add";
+
+    @include mediaquery.max-md {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        row-gap: 0.5rem;
+        grid-template-areas:
+            "buttonGroup buttonGroup"
+            "refresh add"
+            ". .";
+    }
+}
+
+.buttonGroup {
+    grid-area: buttonGroup;
+}
+
+.selectorButton {
+    border: 1px solid vars.$secondary-color;
+    color: darken(vars.$secondary-color, 10);
+    background: none;
+
+    &.active {
+        color: #fff;
+        background-color: vars.$secondary-color;
+    }
+    &:hover {
+        box-shadow: 0 0 5px vars.$secondary-color;
+    }
+    
+}
+
+.addButton {
+    grid-area: add;
+
+    border: 1px solid vars.$success-color;
+    color: #fff;
+    background-color: vars.$success-color;
+
+    &:hover {
+        // background-color: darken(vars.$success-color, 5);
+        box-shadow: 0 0 5px vars.$success-color;
+    }
+}
+
+.refreshButton {
+    grid-area: refresh;
+
+    border: 1px solid vars.$secondary-color;
+    color: darken(vars.$secondary-color, 10);
+    background: none;
+
+    &:hover {
+        // color: #fff;
+        // background-color: vars.$secondary-color;
+        box-shadow: 0 0 5px vars.$secondary-color;
+    }
+}
+
+.icon {
+    font-size: 1.2rem;
+}

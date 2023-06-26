@@ -19,7 +19,7 @@ function Image({fallbackSrc, src, alt, ...rest}) {
         <img
             {...rest}
             alt={alt}
-            src={src}
+            src={src || ''} // if src==undefined then, error event will not trigger. so we pass '' instead of undefined
             onError={handleImageError}
         />
     );

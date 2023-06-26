@@ -11,7 +11,9 @@
 
     height: 2.8rem;
 
-    // z-index: 1; // box shadow on sidebar (and also page)
+    position: sticky;
+    top: 0;
+    z-index: 1; // overlap on scrollbar component (table rows)
 
     background-color: vars.$primary-color;
     // background-color: vars.$secondary-color;
@@ -43,7 +45,7 @@
     color: #fff;
 
     visibility: hidden;
-    @include mediaquery.max-md {
+    @include mediaquery.sidebar {
         visibility: visible;
     }
 }

@@ -1,0 +1,52 @@
+@use '../../../assets/scss/vars';
+
+.DataTable {
+    // align-self: start;
+    
+    display: grid;
+    grid-template-rows: 3rem 1fr 2.5rem;
+    // grid-auto-rows: 4rem;
+
+    background: #fff;
+    border-radius: vars.$border-radius;
+
+    overflow: hidden;
+
+    box-shadow: vars.$box-shadow-1;
+}
+
+.rowList {
+    // max-height: 100%;
+    // height: 300px;
+    // overflow-y: scroll;
+    overflow-y: auto;
+
+    & > :nth-child(2n){
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}
+
+.StatusContainer {
+    display: grid;
+    place-items: center;
+}
+
+.errorMessage {
+    width: 50%;
+    text-align: center;
+    color: vars.$danger-color;
+}
+
+:export {
+    primaryColor: vars.$primary-color;
+}
+
+// config grid for header and data rows
+// .row {
+//     display: grid;
+//     grid-auto-flow: column;
+//     grid-auto-columns: 1fr;
+//     place-items: center;
+    
+//     border-bottom: 1px solid #bbb;
+// }
