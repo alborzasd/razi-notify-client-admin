@@ -1,72 +1,96 @@
-import styles from './DataTable.module.scss';
+import styles from "./DataTable.module.scss";
 
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
-import RtlScrollbars from '../RtlScrollbars';
-import { CircleSpinner } from 'react-spinners-kit';
+import RtlScrollbars from "../RtlScrollbars";
+import { CircleSpinner } from "react-spinners-kit";
 
-import DataRow from './DataRow';
-import TableHeader from './TableHeader';
-import TableFooter from './TableFooter';
+import DataRow from "./DataRow";
+import TableHeader from "./TableHeader";
+import TableFooter from "./TableFooter";
 
-function DataTable({config}) {
-    const {entityName} = config;
-    const colNames = Object.keys(config.columns);
-    const colComponents = Object.values(config.columns).map(col => col.component);
+function DataTable({ config }) {
+  // if this filterConfig is changed by any actions dispatched from other components
+  // (like TableSearch, TableFooter) this component will rerener
+  // and the query hook will send a new request to fetch data with new filters
+  const filterConfig = useSelector(config.selectors.selectFilterConfig);
 
-    // const entities = useSelector(config.selectors.selectAll);
-    // const filterCallback = useSelector(config.selectors.selectFilterCallback);
-    // const paginationCongif = useSelector(config.selectors.selectPaginationConfig);
-
-    // const filteredEntities = filterCallback ? entities.filter(filterCallback) : entities;
-    // const paginatedEntities = paginate(filteredEntities, paginationCongif.pageSize, paginationCongif.pageNum);
-    // const dataList = paginatedEntities;
-
-    const dataList = useSelector(config.selectors.selectPaginatedData);
-
-    const loadingStatus = useSelector(config.selectors.selectLoadingStatus);
-    const error = useSelector(config.selectors.selectError);
-
-    
-    const renderedRows = dataList.map((data) => {
-        return <DataRow
-            key={data._id}
-            colNames={colNames} 
-            colComponents={colComponents} 
-            data={data}
-        />;
+  const { data, isLoading, isFetching, isSuccess, isError, error } =
+    config.queryHook(filterConfig, {
+      // skip if filterConfig has some specific situations
+      // for example channel_id for message is not initialized
+      skip: config.skipQueryCallback(filterConfig),
     });
 
-    let content;
-    if(loadingStatus === config.loadingStatusEnum.LOADING){
-        content = <StatusContainer> <CircleSpinner color={styles.primaryColor}/> </StatusContainer>;
-    } else if(loadingStatus === config.loadingStatusEnum.FAILED) {
-        content = <StatusContainer> <p className={styles.errorMessage}>{error?.message}</p> </StatusContainer>;
-    } else if(dataList?.length === 0) {
-        content = <StatusContainer> <p>موردی یافت نشد.</p> </StatusContainer>;
-    } else {
-        content = (
-            <RtlScrollbars>
-                <div className={styles.rowList}>{renderedRows}</div>
-            </RtlScrollbars>
-        );
-    }
-
+  const entities = data?.entities ?? [];
+  // console.log('entities', entities);
+  const renderedEntityRows = entities.map((entity) => {
     return (
-        <div className={styles.DataTable}>
-            <TableHeader colNames={colNames} entityName={entityName} />
-            {content}
-            <TableFooter config={config} />
-        </div>
+      <DataRow
+        key={entity._id}
+        // colNames={colNames}
+        // colComponents={colComponents}
+        entity={entity}
+        config={config}
+      />
     );
+  });
+
+  let content;
+  if (isLoading || isFetching) {
+    content = (
+      <StatusContainer>
+        <CircleSpinner color={styles.primaryColor} />
+      </StatusContainer>
+    );
+  } else if (isError) {
+    const uiErrorMessage = error?.message;
+    const serverErrorMessage = error?.responseData?.message;
+    const serverErrorMessagePersian = error?.responseData?.messagePersian;
+    content = (
+      <StatusContainer>
+        {uiErrorMessage && (
+          <p className={styles.errorMessage}>{uiErrorMessage}</p>
+        )}
+        {serverErrorMessagePersian && (
+          <p className={styles.errorMessage}>{serverErrorMessagePersian}</p>
+        )}
+        {serverErrorMessage && (
+          <p className={styles.errorMessage}>{serverErrorMessage}</p>
+        )}
+      </StatusContainer>
+    );
+  } else if (isSuccess && entities?.length === 0) {
+    content = (
+      <StatusContainer>
+        <p>موردی یافت نشد.</p>
+      </StatusContainer>
+    );
+  } else {
+    content = (
+      <RtlScrollbars>
+        <div className={styles.rowList}>{renderedEntityRows}</div>
+      </RtlScrollbars>
+    );
+  }
+
+  return (
+    <div className={styles.DataTable + " " + config.dataTableClassname}>
+      <div className={styles.temp1}>
+        <RtlScrollbars>
+          <div className={styles.temp2}>
+            <TableHeader config={config} />
+            {content}
+          </div>
+        </RtlScrollbars>
+      </div>
+      <TableFooter config={config} />
+    </div>
+  );
 }
 
-function StatusContainer({children}){
-    return (
-        <div className={styles.StatusContainer}>
-            {children}
-        </div>
-    );
+function StatusContainer({ children }) {
+  return <div className={styles.StatusContainer}>{children}</div>;
 }
 
 export default DataTable;

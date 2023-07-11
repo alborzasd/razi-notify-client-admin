@@ -1,0 +1,79 @@
+@use "../../assets/scss/vars";
+
+.UsersTableTools {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  column-gap: 1rem;
+  grid-template-areas: "buttonDropdown tableSearch refreshBtn addToTempListBtn";
+}
+
+.buttonDropdown {
+  grid-area: buttonDropdown;
+
+  border: 1px solid vars.$users-table-header-color;
+  // color: vars.$primary-color;
+  background-color: vars.$users-table-header-color;
+  color: #fff;
+  border-radius: vars.$border-radius;
+
+  width: 9rem;
+
+  transition: 0.25s;
+  &:hover {
+    box-shadow: 0 0 5px vars.$users-table-header-color;
+  }
+
+  .buttonsContainer {
+    width: 16rem;
+  }
+  .buttonItem {
+    color: rgba(0, 0, 0, 0.6);
+    // color: vars.$users-table-header-color;
+    &:hover {
+      background-color: rgba(vars.$users-table-header-color, 0.8);
+      // color: vars.$users-table-header-color;
+      // background-color: unset;
+    }
+  }
+  .addIcon {
+    font-size: 1.3rem;
+  }
+  .editIcon {
+    font-size: 1.2rem;
+  }
+  .deleteIcon {
+    font-size: 1.3rem;
+  }
+}
+
+.tableSearch {
+  grid-area: tableSearch;
+}
+
+.refreshBtn {
+  grid-area: refreshBtn;
+
+  border: 1px solid vars.$secondary-color;
+  color: darken(vars.$secondary-color, 10);
+  background: none;
+
+  &:hover {
+    box-shadow: 0 0 5px vars.$secondary-color;
+  }
+}
+
+.addToTempListBtn {
+  grid-area: addToTempListBtn;
+
+  border: 1px solid vars.$success-color;
+  color: #fff;
+  background-color: vars.$success-color;
+
+  &:hover {
+    box-shadow: 0 0 5px vars.$success-color;
+  }
+}
+
+.icon {
+  font-size: 1.2rem;
+}

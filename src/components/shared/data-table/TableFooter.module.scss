@@ -1,18 +1,136 @@
 @use '../../../assets/scss/vars';
+@use '../../../assets/scss/mediaquery';
+
+
+// the benefit of this mixin is that the modification of breakpoint
+// for specific layout changes are easy
+// for example:
+// at breakpoint xl we want to change the layout of footer from 1 row to 2 rows
+// also at the same breakpoint we want to change the width of the filterResult div
+// if we want to change the breakpoint size for this behhavior 
+// (change row and width at sm instead of xl)
+// we can do it in only one place
+// we dont have search all the max-xl used in this file
+// another approach is to write all classnames in the max-xl
+// but if we want change class names out of the media query
+// we have to search and find the same classname inside the body of mediaquery also
+@mixin max-breakpoint1 {
+    @include mediaquery.max-xl {
+        @content;
+    }
+}
+
+@mixin max-breakpoint2 {
+    @include mediaquery.max-md {
+        @content;
+    }
+}
+
+@mixin max-breakpoint3 {
+    @media (max-width: 610px) {
+        @content;
+    }
+}
+
+@mixin max-breakpoint4 {
+    @media (max-width: 475px) {
+        @content;
+    }
+}
+
+@mixin max-breakpoint5 {
+    @media (max-width: 360px) {
+        @content;
+    }
+}
 
 .TableFooter {
     border-bottom-left-radius: vars.$border-radius;
     border-bottom-right-radius: vars.$border-radius;
-    // background-color: lighten(vars.$channels-table-header-color, 8);
-    background-color: vars.$channels-table-footer-color;
+    background-color: vars.$table-footer-color;
 
     display: grid;
-    grid-template-columns: auto 1rem auto 1rem 1fr;
+    grid-template-columns: auto 1rem auto 1rem auto 1rem auto 1fr;
+    grid-template-areas: "pageNum vr1 pageSize vr2 submitBtn vr3 paginationResult filterResult";
     grid-auto-flow: column;
     align-items: center;
 
     padding: 0.5rem 1rem;
+
+    @include max-breakpoint1 {
+        // grid-template-columns: auto 1rem auto 1rem auto 1fr;
+        grid-template-columns: auto 1rem auto 1rem auto 1rem auto 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: 
+            "pageNum vr1 pageSize vr2 submitBtn vr3 paginationResult ."
+            "filterResult filterResult filterResult filterResult filterResult filterResult filterResult filterResult";
+    }
+    @include max-breakpoint2 {
+        grid-template-columns: auto 1rem auto 1rem auto 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: 
+            "pageNum vr1 pageSize vr2 submitBtn ."
+            "paginationResult vr3 filterResult filterResult filterResult filterResult";
+    }
+    @include max-breakpoint3 {
+        grid-template-columns: auto 1rem auto 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-areas: 
+            "pageNum vr1 pageSize ."
+            "paginationResult vr2 submitBtn ."
+            "filterResult filterResult filterResult filterResult";
+    }
+    @include max-breakpoint4 {
+        // grid-template-columns: auto 1rem auto;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+        grid-template-areas: 
+            "pageNum pageNum pageNum ."
+            "pageSize pageSize pageSize ."
+            "paginationResult vr1 submitBtn ."
+            "filterResult filterResult filterResult filterResult";
+    }
+    @include max-breakpoint5 {
+        grid-template-columns: 100%;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-areas: 
+            "pageNum"
+            "pageSize"
+            "paginationResult"
+            "filterResult"
+            "submitBtn";
+        
+        font-size: 0.9rem;
+    }
 }
+
+//////////////
+/// areas
+.pageNum {
+    grid-area: pageNum;
+}
+.pageSize {
+    grid-area: pageSize;
+}
+.submitBtn {
+    grid-area: submitBtn;
+}
+.paginationResult {
+    grid-area: paginationResult;
+}
+.filterResult {
+    grid-area: filterResult;
+}
+
+.vr1{
+    grid-area: vr1;
+}
+.vr2{
+    grid-area: vr2;
+}
+.vr3{
+    grid-area: vr3;
+}
+/////////////
 
 .text {
     color: #555;
@@ -42,7 +160,62 @@
 
 .input {
     font-size: 1rem;
-    width: 5rem;
+    width: 4rem;
     // text-align: center;
     padding-right: 0.5rem;
+}
+
+.submitBtn {
+    font-size: 0.9rem;
+    height: 1.7rem;
+    width: 7rem;
+
+    background-color: vars.$primary-color;
+    border: none;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+        box-shadow: 0 0 5px vars.$primary-color;
+    }
+    &:disabled {
+        cursor: auto;
+        background-color: rgba(vars.$primary-color, 0.5);
+    }
+
+    @include max-breakpoint5 {
+        width: 100%;
+    }
+}
+
+// .paginationResult {
+//     grid-column-start: 7;
+// }
+
+.filterResult {
+    // grid-column-start: -2;
+    justify-self: end;
+    overflow: hidden;
+
+    white-space: nowrap;
+    max-width: 90%;
+    @include max-breakpoint1{
+        justify-self: start;
+        max-width: 100%;
+    }
+
+    .text {
+        display: flex;
+        align-items: center;
+        .icon {
+            flex-shrink: 0;
+        }
+    }
+
+    .displaySearchField, .displaySearchValue {
+        color: vars.$primary-color;
+    }
+    .displaySearchValue {
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+    }
 }

@@ -7,38 +7,45 @@
     grid-auto-columns: 1fr;
     place-items: center;
     column-gap: 0.25rem;
+
+    height: 100%;
     
     border-bottom: 1px solid #bbb;
 
     border-top-left-radius: vars.$border-radius;
     border-top-right-radius: vars.$border-radius;
     color: #555;
-    background-color: vars.$channels-table-header-color;
+    // background-color: vars.$channels-table-header-color;
 }
 
-.colName, .entityName {
-    font-size: 1rem;
+.colName/*, .tableInstanceNameText*/ {
+    font-size: 0.9rem;
     text-align: center;
-}
 
-.colName {
-    // font-size: 1rem;
-    // text-align: center;
-    @include mediaquery.max-xl {
-        font-size: 0.9rem;
-    }
-    @include mediaquery.max-lg {
-        font-size: 0.8rem;
-    }
-
-    @include mediaquery.max-md {
-        display: none;
+    width: 100%;
+    &:not(:first-child){
+        border-right: 1px solid #ccc;
     }
 }
 
-.entityName {
-    display: none;
-    @include mediaquery.max-md {
-        display: initial;
-    }
-}
+// .colName {
+//     // font-size: 1rem;
+//     // text-align: center;
+//     @include mediaquery.max-xl {
+//         font-size: 0.9rem;
+//     }
+//     @include mediaquery.max-lg {
+//         font-size: 0.8rem;
+//     }
+
+//     @include mediaquery.max-md {
+//         display: none;
+//     }
+// }
+
+// .tableInstanceNameText {
+//     display: none;
+//     @include mediaquery.max-md {
+//         display: initial;
+//     }
+// }

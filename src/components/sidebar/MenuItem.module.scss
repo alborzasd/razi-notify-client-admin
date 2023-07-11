@@ -1,7 +1,9 @@
 @use '../../assets/scss/vars';
 
 .link {
-    display: flex;
+    // display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
     align-items: center;
     gap: 0.8rem;
 

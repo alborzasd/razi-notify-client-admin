@@ -1,0 +1,95 @@
+@use '../../assets/scss/vars';
+
+.profile {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 1.25rem 1.25rem 1.25rem;
+  column-gap: 0.5rem;
+  place-items: center;
+}
+
+.detailsBtn, .removeBtn, .addToTempListBtn {
+  border: none;
+  background: none;
+  padding: 0;
+}
+.detailsBtn {
+  color: vars.$primary-color;
+  font-size: 1.2rem;
+}
+.removeBtn {
+  color: vars.$danger-color;
+  font-size: 1.4rem;
+}
+.addToTempListBtn {
+  color: #aaa;
+  font-size: 1.6rem;
+  transition: 0.15s;
+  &.active {
+    color: vars.$success-color;
+    box-shadow: 0 0 5px vars.$success-color;
+  }
+}
+
+.colName {
+  &:not(:first-child) {
+    border-right: 1px solid #ddd;
+  }
+}
+
+.cellMultiRow {
+  font-weight: 300;
+  color: #444;
+
+  .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .icon {
+    font-size: 1.1rem;
+  }
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+$grid-cols: 0.35fr 0.5fr 0.5fr 1fr 0.5fr 0.75fr 0.5fr 0.5fr;
+$min-width: 1100px;
+$width: 100%;
+$column-gap: 0.5rem;
+.tableHeader {
+  // display: grid;
+  grid-template-columns: $grid-cols;
+  min-width: $min-width;
+  width: $width;
+  column-gap: $column-gap;
+
+  background-color: vars.$users-table-header-color;
+  color: #fff;
+}
+.tableRow {
+  // display: grid;
+  grid-template-columns: $grid-cols;
+  min-width: $min-width;
+  width: $width;
+  column-gap: $column-gap;
+}
+
+.modalWarningText {
+
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+
+  .specialText {
+      color: vars.$danger-color;
+  }
+}

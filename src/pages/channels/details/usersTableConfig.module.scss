@@ -1,0 +1,39 @@
+@use '../../../assets/scss/vars';
+
+.buttons {
+  // set grid to two cols
+  // becuase deleteBtn is not shown in this component
+  grid-template-columns: 1.25rem 1.25rem !important;
+}
+
+$grid-cols: 0.35fr 0.5fr 0.5fr 0.65fr 0.5fr 0.7fr 0.5fr 0.5fr 0.45fr 0.35fr;
+$min-width: 1100px;
+$width: 100%;
+$column-gap: 0.5rem;
+.tableHeader {
+  // display: grid;
+  grid-template-columns: $grid-cols;
+  min-width: $min-width;
+  width: $width;
+  column-gap: $column-gap;
+
+  background-color: vars.$users-of-channel-table-header-color;
+  color: #fff;
+}
+.tableRow {
+  // display: grid;
+  grid-template-columns: $grid-cols;
+  min-width: $min-width;
+  width: $width;
+  column-gap: $column-gap;
+}
+
+// .modalWarningText {
+
+//   font-size: 1.1rem;
+//   margin-bottom: 0.7rem;
+
+//   .specialText {
+//       color: vars.$danger-color;
+//   }
+// }

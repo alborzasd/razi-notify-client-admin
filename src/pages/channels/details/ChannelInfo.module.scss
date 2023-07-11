@@ -6,6 +6,12 @@
     grid-template-columns: 250px 1fr;
     column-gap: 2rem;
 
+    // width: 95%;
+    // margin: 0 auto;
+    // margin-top: 1rem;
+
+    position: relative; // for loading/error overlay
+
     padding: 1rem 4rem;
     background: #fff;
     box-shadow: vars.$box-shadow-form;
@@ -19,6 +25,37 @@
         grid-template-rows: auto auto;
         // padding: 1rem;
         row-gap: 1rem;
+    }
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+    background-color: #fff;
+
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &.active {
+        display: flex;
+        z-index: 1;
+    }
+
+    .error {
+        color: vars.$danger-color;
+    }
+}
+
+@mixin fade-transition {
+    // opacity: 1; not necessary
+    transition: opacity 0.35s;
+    &.hidden {
+        opacity: 0;
     }
 }
 
@@ -42,6 +79,8 @@
             "buttons buttons";
         column-gap: 1rem;
     }
+
+    @include fade-transition;
 }
 
 .main {
@@ -61,6 +100,8 @@
             "identifier"
             "description";
     }
+
+    @include fade-transition;
 }
 
 .field {
@@ -76,7 +117,7 @@
     background-color: rgba(vars.$secondary-color, 0.1);
     border-radius: vars.$border-radius;
 
-    // tries to move to long word to new line otherwise break that word ?
+    // tries to move the long word to new line otherwise break that word ?
     overflow-wrap: anywhere;
     // word-wrap is same is overflow-wrap supported in older browsers
     word-wrap: anywhere;
@@ -92,9 +133,28 @@
         gap: 0.25rem;
         font-size: 1em;
         color: #555;
+
+        padding-top: 0.15rem;
     }
     .value {
-        
+        flex-grow: 1;
+        padding: 0.1rem 0.5rem;
+        // font-size: 1em;
+        border: 1px solid transparent;
+        animation: fadeInAnimation 0.5s;
+    }
+    .input {
+        flex-grow: 1;
+        width: 100%;
+        // justify-self: stretch;
+        align-self: stretch;
+        height: 100%;
+        padding: 0.1rem 0.5rem;
+        font-size: 1em;
+        border: 1px solid vars.$secondary-color;
+        border-radius: vars.$border-radius;
+        resize: none; // for textarea
+        animation: fadeInAnimation 0.5s;
     }
 
     @include mediaquery.max-xl {
@@ -103,6 +163,15 @@
     }
     @include mediaquery.max-lg {
         font-size: 1rem;
+    }
+    
+    @keyframes fadeInAnimation {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
     }
 }
 
@@ -131,12 +200,12 @@
     }
 }
 
-.editBtn, .deleteBtn {
+.editBtn, .deleteBtn, .submitEditBtn, .cancelEditBtn, .submitAddBtn {
     padding: 0;
     background: none;
     height: 2rem;
 }
-.editBtn {
+.editBtn, .submitEditBtn {
     border: 1px solid vars.$secondary-color;
     color: darken(vars.$secondary-color, 10);
     &:hover {
@@ -144,12 +213,21 @@
         background-color: vars.$secondary-color;
     }
 }
-.deleteBtn {
+.deleteBtn, .cancelEditBtn {
     border: 1px solid vars.$danger-color;
     color: vars.$danger-color;
     &:hover {
         color: #fff;
         background-color: vars.$danger-color;
+    }
+}
+.submitAddBtn {
+    grid-column: 1/3;
+    border: 1px solid vars.$success-color;
+    color: vars.$success-color;
+    &:hover {
+        color: #fff;
+        background-color: vars.$success-color;
     }
 }
 
@@ -179,6 +257,12 @@
 }
 
 
-.tabs {
-    grid-area: tabs;
+:export {
+    primaryColor: vars.$primary-color;
+    backColor: rgba(0, 0, 0, 0.5);
 }
+
+
+// .tabs {
+//     grid-area: tabs;
+// }

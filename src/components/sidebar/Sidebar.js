@@ -39,12 +39,6 @@ function Sidebar() {
             <ProfileCard />
             <div className={styles.hr}></div>
             <Menu />
-            {/* <button 
-                className={styles.toggler}
-                onClick={() => closeSidebar()}
-            >
-                <MdArrowForwardIos />
-            </button> */}
         </div>
     )
 }

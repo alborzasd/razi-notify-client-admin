@@ -1,0 +1,62 @@
+@use '../../../assets/scss/vars';
+
+.Dropdown {
+  display: grid;
+  grid-template-columns: 1rem 1fr;
+  align-items: center;
+  column-gap: 0.5rem;
+
+  padding: 0 0.2rem;
+
+  border: 1px solid #bbb;
+  width: 7rem;
+
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.6); // color for text and chevron icon
+  cursor: pointer;
+
+  position: relative;
+}
+
+.selectedOption {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  // color: rgba(0, 0, 0, 0.6);
+}
+
+.optionsContainer {
+  position: absolute;
+  top: 105%;
+  right: 0;
+  z-index: vars.$dropdown-items-z-index;
+  // background-color: blue;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: vars.$box-shadow-1;
+  border-radius: vars.$border-radius;
+
+  overflow: hidden;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.option {
+  // color: red;
+  padding: 0.5rem;
+
+  transition: 0.25s;
+  &:hover {
+    background-color: rgba(vars.$primary-color, 0.8);
+    color: #fff;
+  }
+}
+
+.icon {
+  transition: 0.25s;
+  &.rotate {
+    transform: rotate(180deg);
+  }
+}

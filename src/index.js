@@ -15,8 +15,10 @@ import MainLayout from './pages/MainLayout';
 import NotFoundPage from './pages/not-found/NotFoundPage';
 import HomePage from './pages/home/HomePage';
 import ChannelsPage from './pages/channels/ChannelsPage';
+import ChannelAddPage from './pages/channels/add/ChannelAddPage';
 import ChannelDetailsPage from './pages/channels/details/ChannelDetailsPage';
 import UsersPage from './pages/users/UsersPage';
+import TempUsersPage from './pages/temp-users/TempUsersPage';
 
 const router = createBrowserRouter([
   {
@@ -42,12 +44,20 @@ const router = createBrowserRouter([
             element: <ChannelsPage />,
           },
           {
+            path: '/channels/add',
+            element: <ChannelAddPage />
+          },
+          {
             path: '/channels/:identifier',
             element: <ChannelDetailsPage />
-          },
+          },          
           {
             path: '/users',
             element: <UsersPage />
+          },
+          {
+            path: '/temp-users',
+            element: <TempUsersPage />,
           },
         ]
       }

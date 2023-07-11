@@ -1,3 +1,4 @@
+// semantic colors
 $primary-color: #8F43EE;
 $secondary-color: #6C9BCF;
 // $success-color: #ADDDD0;
@@ -5,23 +6,46 @@ $success-color: #03C988;
 $warning-color: #F2CD5C;
 $danger-color: #F16767;
 
+// background colors
 $layout-background-color: rgb(245, 245, 251);
-$channels-table-header-color: #FFD3B0;
-$channels-table-footer-color: #F3E8FF;
-// $table-head-background-color: #BFDCE5;
-// $table-head-background-color: #D2DAFF;
+// $channels-table-header-color: #9376E0;
+$channels-table-header-color: #B2A4FF;
+// $channels-table-header-color: #FFD3B0;
+$table-footer-color: #F3E8FF;
+// $users-table-header-color: #BFDCE5;
+// $users-table-header-color: #FF7777;
+// $users-table-header-color: #FFD31D;
+// $users-table-header-color: #FFEA66;
+// $users-table-header-color: #FF8A5C; // for temp ?
+$users-table-header-color: rgba(#D7385E, 0.8);
+// $messages-table-header-color: #BFDCE5;
+$messages-table-header-color: rgba(#FFD31D, 0.6);
+$users-of-channel-table-header-color: #FF7777;
+// $temp-users-table-header-color: #FF8A5C;
+// $temp-users-table-header-color: $secondary-color;
+$temp-users-table-header-color: #16C79A;
 
+// box shadows
 $box-shadow-1: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 $box-shadow-topbar: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 $box-shadow-sidebar: $layout-background-color 0px 0 4px;
 $box-shadow-form: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 $box-shadow-tabs: rgba(99, 99, 99, 0.1) 0px 6px 7px 0px;
 
+// dimensions
+$topbar-height: 2.8rem;
 $main-layout-min-height: 500px;
 $sidebar-width: 300px;
+$data-table-min-height: 570px;
 
+// border & outline
 $input-focus-outline: 3px solid rgba($primary-color, 0.3);
 
 $border-radius: 5px;
 
 // $page-padding: 1rem;
+
+// z-index
+$topbar-z-index: 10;
+$sidebar-z-index: 11;
+$dropdown-items-z-index: 1;

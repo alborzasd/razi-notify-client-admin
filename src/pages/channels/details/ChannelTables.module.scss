@@ -1,7 +1,14 @@
 @use '../../../assets/scss/vars';
 
 .ChannelTables {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 100%;
+    row-gap: 3rem;
 
+    // justify-content: center;
+    // width: 95%;
+    // margin: 0 auto;
 }
 
 .tabs {
@@ -9,12 +16,18 @@
     grid-auto-flow: column;
     background: #fff;
     box-shadow: vars.$box-shadow-tabs;
+    position: relative; // to z-index have effect
+    z-index: 0;
+
+    // width: 90%;
 }
 
 .tab {
     background: none;
     border: none;
     border-radius: 0;
+
+    // scroll-margin: vars.$topbar-height; // didnt work
 
     height: 3rem;
 
@@ -28,4 +41,18 @@
     &.active {
         background-color: rgba(vars.$secondary-color, 0.4);
     }
+}
+
+.dataTableWrapper {
+    // margin-top: 3rem;
+    // min-height: vars.$data-table-min-height;
+    // width: 90%;
+    // justify-self: center;
+
+    // force table to shrink event the text inside is a lot (NOPE!)
+    // overflow-x: hidden;
+}
+
+:export {
+    topbarHeight: vars.$topbar-height;
 }

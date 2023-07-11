@@ -4,8 +4,12 @@
     // align-self: start;
     
     display: grid;
-    grid-template-rows: 3rem 1fr 2.5rem;
+    // grid-template-rows: 3rem 1fr 2.5rem;
+    // grid-template-rows: 1fr 2.5rem;
+    grid-template-rows: 1fr auto;
     // grid-auto-rows: 4rem;
+    height: 100%;
+    min-height: vars.$data-table-min-height;
 
     background: #fff;
     border-radius: vars.$border-radius;
@@ -20,6 +24,7 @@
     // height: 300px;
     // overflow-y: scroll;
     overflow-y: auto;
+    // overflow-x: auto;
 
     & > :nth-child(2n){
         background-color: rgba(0, 0, 0, 0.05);
@@ -27,8 +32,12 @@
 }
 
 .StatusContainer {
-    display: grid;
-    place-items: center;
+    // display: grid;
+    // place-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .errorMessage {
@@ -39,6 +48,16 @@
 
 :export {
     primaryColor: vars.$primary-color;
+}
+
+.temp1 {
+    // height: 100%;
+}
+.temp2 {
+    display: grid;
+    grid-template-rows: 3rem 1fr;
+    // overflow-y: hidden;
+    height: 100%;
 }
 
 // config grid for header and data rows

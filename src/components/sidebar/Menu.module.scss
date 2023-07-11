@@ -1,3 +1,5 @@
+@use '../../assets/scss/vars';
+
 .Menu {
     align-self: start;
 
@@ -9,4 +11,34 @@
     row-gap: 0.25rem;
 
     // padding: 0 1rem;
+}
+
+.requestsIcon {
+    font-size: 1.3rem;
+}
+.tempUsersIcon {
+    font-size: 1.3rem;
+}
+
+.menuItem {
+    display: grid;
+    grid-template-columns: auto 1fr;
+
+    // width: 100%;
+
+    .numberBadge {
+        justify-self: end;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 0.8rem;
+        max-width: 5rem;
+
+        background-color: vars.$danger-color;
+        color: #fff;
+        padding: 0 0.3rem;
+        border-radius: vars.$border-radius;
+    }
 }

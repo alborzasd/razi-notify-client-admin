@@ -5,7 +5,9 @@ import { ToastContainer, Slide } from 'react-toastify';
 
 const autoClose = 3000;
 
-export const toastOptions = {
+// options for a toast that represents a resolved promise (fulfilled or rejected)
+// used by logout toast (in ProfileCard.js), delete toast
+export const resolvedToastOptions = {
     isLoading: false,
     autoClose,
     closeOnClick: true,

@@ -1,0 +1,64 @@
+@use '../../../assets/scss/vars';
+
+// .messagesTable {
+//   border-radius: 0 !important;
+// }
+
+.buttons {
+  display: grid;
+  grid-template-columns: 1.25rem 1.25rem;
+  column-gap: 0.5rem;
+  place-items: center;
+}
+
+.detailsBtn, .removeBtn {
+  border: none;
+  background: none;
+  padding: 0;
+}
+.detailsBtn {
+  color: vars.$primary-color;
+  font-size: 1.2rem;
+}
+.removeBtn {
+  color: vars.$danger-color;
+  font-size: 1.4rem;
+}
+
+.colName {
+  &:not(:first-child){
+    border-right: 1px solid #999;
+  }
+}
+
+$grid-cols: 0.35fr 1fr 2fr 0.65fr 0.75fr 0.60fr;
+$min-width: 1100px;
+$width: 100%;
+$column-gap: 0.5rem;
+.tableHeader {
+  // display: grid;
+  grid-template-columns: $grid-cols;
+  min-width: $min-width;
+  width: $width;
+  column-gap: $column-gap;
+
+  background-color: vars.$messages-table-header-color;
+  // color: #fff;
+}
+.tableRow {
+  // display: grid;
+  grid-template-columns: $grid-cols;
+  min-width: $min-width;
+  width: $width;
+  column-gap: $column-gap;
+}
+
+.modalWarningText {
+
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+
+  .specialText {
+      color: vars.$danger-color;
+  }
+}

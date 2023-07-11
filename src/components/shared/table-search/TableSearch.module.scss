@@ -1,0 +1,35 @@
+@use '../../../assets/scss/vars';
+
+.TableSearch {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+
+  // border: 1px solid vars.$primary-color;
+  // border-radius: vars.$border-radius;
+}
+
+// .input {
+//   border: 1px solid #bbb;
+//   border-top-right-radius: vars.$border-radius;
+//   border-bottom-right-radius: vars.$border-radius;
+//   font-size: 1rem;
+//   padding: 0 0.5rem;
+
+//   &:focus{
+//     outline: vars.$input-focus-outline;
+//   }
+// }
+
+.searchButton {
+  border: 1px solid vars.$secondary-color;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  background-color: vars.$secondary-color;
+  color: #fff;
+  font-size: 1.2rem;
+  width: 3rem;
+
+  &:hover {
+    box-shadow: 0 0 5px vars.$secondary-color;
+  }
+}

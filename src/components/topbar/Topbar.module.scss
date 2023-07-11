@@ -9,11 +9,11 @@
 
     grid-area: topbar;
 
-    height: 2.8rem;
+    height: vars.$topbar-height;
 
     position: sticky;
     top: 0;
-    z-index: 1; // overlap on scrollbar component (table rows)
+    z-index: vars.$topbar-z-index; // overlap on scrollbar component (table rows)
 
     background-color: vars.$primary-color;
     // background-color: vars.$secondary-color;
