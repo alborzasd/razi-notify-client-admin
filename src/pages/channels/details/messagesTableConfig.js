@@ -57,12 +57,15 @@ function Actions({ data: message }) {
     canUserModifyChannel(state, message?.channel?.owner_id)
   );
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [triggerDelete] = useDeleteMessageMutation();
 
   const openModal = () => {
-    setModalIsOpen(true);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   const submitDelete = async () => {
@@ -104,8 +107,8 @@ function Actions({ data: message }) {
       <WarningModal
         data={message}
         WarningParagraph={WarningParagraph}
-        isOpen={modalIsOpen}
-        setIsOpen={setModalIsOpen}
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
         onConfirmClick={submitDelete}
         confirmButtonText={"حذف"}
       />

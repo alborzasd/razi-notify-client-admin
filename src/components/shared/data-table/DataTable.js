@@ -20,7 +20,7 @@ function DataTable({ config }) {
       // skip if filterConfig has some specific situations
       // for example channel_id for message is not initialized
       skip: config.skipQueryCallback(filterConfig),
-    });
+    });  
 
   const entities = data?.entities ?? [];
   // console.log('entities', entities);

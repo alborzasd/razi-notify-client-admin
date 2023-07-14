@@ -73,7 +73,7 @@ function ChannelInfo() {
   const [triggerDelete] = useDeleteChannelMutation();
   const [triggerCreate] = useCreateChannelMutation();
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // if identifier is undefined, it means we are in the /channels/add route
   // The ChannelAddPage in this route has called this component
@@ -160,7 +160,10 @@ function ChannelInfo() {
   };
 
   const openWarningModal = () => {
-    setModalIsOpen(true);
+    setIsModalOpen(true);
+  };
+  const closeWarningModal = () => {
+    setIsModalOpen(false);
   };
 
   const submitEdit = async () => {
@@ -376,8 +379,8 @@ function ChannelInfo() {
       <WarningModal
         data={channel}
         WarningParagraph={WarningParagraph}
-        isOpen={modalIsOpen}
-        setIsOpen={setModalIsOpen}
+        isModalOpen={isModalOpen}
+        closeModal={closeWarningModal}
         onConfirmClick={submitDelete}
         confirmButtonText={"حذف"}
       />

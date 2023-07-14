@@ -94,12 +94,15 @@ function Actions({ data }) {
   );
   const isRootAdmin = useSelector(selectIsUserRootAdmin);
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [triggerDelete] = useDeleteChannelMutation();
 
   const openModal = () => {
-    setModalIsOpen(true);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   const submitDelete = async () => {
@@ -140,8 +143,8 @@ function Actions({ data }) {
       <WarningModal
         data={data}
         WarningParagraph={WarningParagraph}
-        isOpen={modalIsOpen}
-        setIsOpen={setModalIsOpen}
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
         onConfirmClick={submitDelete}
         confirmButtonText={"حذف"}
       />

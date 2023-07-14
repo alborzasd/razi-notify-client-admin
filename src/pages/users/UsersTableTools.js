@@ -1,8 +1,13 @@
 import styles from "./UsersTableTools.module.scss";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import { useInvalidateUsersMutation } from "../../redux/apiSlice";
+
+import { useSelector, useDispatch } from "react-redux";
+import { useGetUsersQuery } from "../../redux/apiSlice";
+import { selectAllUsersFilterConfig } from "../../redux/filterConfigSlice";
+import { addManyUsersToTempUsersTable } from "../../redux/tempUsersSlice";
 
 import TableSearch from "../../components/shared/table-search/TableSearch";
 import Button, { ButtonDropdown } from "../../components/shared/Button";
@@ -21,12 +26,39 @@ import {
   inputComponents,
 } from "./usersTableSearchConfig";
 
-function UsersTableTools() {
-  const [trigger] = useInvalidateUsersMutation();
+import { 
+  addManyUsersModalConfig,
+  editManyUsersModalConfig,
+  deleteManyUsersModalConfig,
+  modalInstanceNames
+} from "./groupOperationModalConfig";
+import { GroupOperationModal } from "../../components/shared/Modal";
 
-  const handleReload = () => {
-    trigger();
-  };
+function UsersTableTools() {  
+
+  return (
+    <div className={styles.UsersTableTools}>
+      <GroupOperationsDropdown />
+
+      <TableSearch
+        className={styles.tableSearch}
+        primaryDropdownConfig={primaryDropdownConfig}
+        inputComponents={inputComponents}
+        tableInstanceName={tableInstanceNames.allUsers}
+      />
+
+      <RefreshButton />
+
+      <AddResultToTempListBtn />
+    </div>
+  );
+}
+
+function GroupOperationsDropdown() {
+  // stores name of the modal that must be open
+  const [openedModalInstanceName, setOpenedModalInstanceName] = useState(false);
+
+  const closeModal = () => setOpenedModalInstanceName(false);
 
   const buttonDropdownConfig = useMemo(
     () => ({
@@ -44,7 +76,7 @@ function UsersTableTools() {
             props: { className: styles.addIcon },
           },
           onClick: () => {
-            console.log("add");
+            setOpenedModalInstanceName(modalInstanceNames.addManyUsers);
           },
         },
         {
@@ -54,7 +86,7 @@ function UsersTableTools() {
             props: { className: styles.editIcon },
           },
           onClick: () => {
-            console.log("edit");
+            setOpenedModalInstanceName(modalInstanceNames.editManyUsers);
           },
         },
         {
@@ -64,7 +96,7 @@ function UsersTableTools() {
             props: { className: styles.deleteIcon },
           },
           onClick: () => {
-            console.log("delete");
+            setOpenedModalInstanceName(modalInstanceNames.deleteManyUsers);
           },
         },
       ],
@@ -73,27 +105,72 @@ function UsersTableTools() {
   );
 
   return (
-    <div className={styles.UsersTableTools}>
+    <>
       <ButtonDropdown config={buttonDropdownConfig} />
-
-      {/* <div className={styles.tableSearch}>table search</div> */}
-      <TableSearch
-        className={styles.tableSearch}
-        primaryDropdownConfig={primaryDropdownConfig}
-        inputComponents={inputComponents}
-        tableInstanceName={tableInstanceNames.allUsers}
+      <GroupOperationModal
+        config={addManyUsersModalConfig}
+        isModalOpen={
+          openedModalInstanceName === modalInstanceNames.addManyUsers
+        }
+        closeModal={closeModal}
       />
+      <GroupOperationModal
+        config={editManyUsersModalConfig}
+        isModalOpen={
+          openedModalInstanceName ===
+          modalInstanceNames.editManyUsers
+        }
+        closeModal={closeModal}
+      />
+      <GroupOperationModal
+        config={deleteManyUsersModalConfig}
+        isModalOpen={
+          openedModalInstanceName ===
+          modalInstanceNames.deleteManyUsers
+        }
+        closeModal={closeModal}
+      />
+    </>
+  );
+}
 
-      <Button onClick={handleReload} className={styles.refreshBtn}>
-        <IoMdRefresh className={styles.icon} />
-        بارگیری مجدد
-      </Button>
-      {/* TODO: this button needs query hook in order to add result data to tempUsers slice */}
-      <Button className={styles.addToTempListBtn}>
-        <HiOutlineClipboardList className={styles.icon} />
-        افزودن نتایج به لیست موقت
-      </Button>
-    </div>
+function RefreshButton() {
+  const [trigger] = useInvalidateUsersMutation();
+
+  const handleReload = () => {
+    trigger();
+  };
+
+  return (
+    <Button onClick={handleReload} className={styles.refreshBtn}>
+      <IoMdRefresh className={styles.icon} />
+      بارگیری مجدد
+    </Button>
+  );
+}
+
+function AddResultToTempListBtn() {
+  const dispatch = useDispatch();
+
+  const usersTableFilterConfig = useSelector(selectAllUsersFilterConfig);
+
+  // does not need skip callback
+  const { data, isFetching, isSuccess } = useGetUsersQuery(
+    usersTableFilterConfig
+  );
+
+  const handleClick = () => {
+    const users = data?.entities ?? [];
+    if (users?.length > 0 && isSuccess && !isFetching) {
+      dispatch(addManyUsersToTempUsersTable(users));
+    }
+  };
+
+  return (
+    <Button onClick={handleClick} className={styles.addToTempListBtn}>
+      <HiOutlineClipboardList className={styles.icon} />
+      افزودن نتایج به لیست موقت
+    </Button>
   );
 }
 

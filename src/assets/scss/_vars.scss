@@ -23,7 +23,12 @@ $messages-table-header-color: rgba(#FFD31D, 0.6);
 $users-of-channel-table-header-color: #FF7777;
 // $temp-users-table-header-color: #FF8A5C;
 // $temp-users-table-header-color: $secondary-color;
-$temp-users-table-header-color: #16C79A;
+// $temp-users-table-header-color: #16C79A;
+// $temp-users-table-header-color: #78C1F3;
+// $temp-users-table-header-color: #3C6255;
+// $temp-users-table-header-color: #61876E;
+// $temp-users-table-header-color: #68B984;
+$temp-users-table-header-color: #4FA095;
 
 // box shadows
 $box-shadow-1: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
@@ -49,3 +54,4 @@ $border-radius: 5px;
 $topbar-z-index: 10;
 $sidebar-z-index: 11;
 $dropdown-items-z-index: 1;
+$modal-z-index: 1000;

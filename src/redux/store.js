@@ -4,6 +4,7 @@ import {apiSlice} from './apiSlice';
 import authReducer from './authSlice';
 // import channelsReducer from './channelsSlice';
 import filterConfigReducer from './filterConfigSlice';
+import tempUsersReducer from './tempUsersSlice';
 
 export default configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
         auth: authReducer,
         // channels: channelsReducer,
         filterConfig: filterConfigReducer,
+        tempUsers: tempUsersReducer,
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware().concat(apiSlice.middleware)

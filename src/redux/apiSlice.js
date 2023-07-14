@@ -272,7 +272,7 @@ export const apiSlice = createApi({
         params: filterConfig,
       }),
       transformResponse: transformResponseForGetUsersOfChannelTable,
-      providesTags: (result, error, {channelId}) =>
+      providesTags: (result, error, { channelId }) =>
         (result
           ? [
               ...result?.entities?.map(({ _id }) => ({
@@ -284,8 +284,6 @@ export const apiSlice = createApi({
           : [{ type: "Users", id: "LIST" }]
         ).concat([{ type: "UsersOfChannel", id: channelId }]),
     }),
-
-    // addManyUsersToChannel, invalidates { type: "UsersOfChannel", id: channelId }
 
     /////////////////////////////////////////////////////////////////////////
     // queries for table search dropdown instances
@@ -312,6 +310,91 @@ export const apiSlice = createApi({
         url: "/constants/lecturer_positions",
         method: "get",
       }),
+    }),
+
+    /////////////////////////////////////////////////////////////////////////
+    // queries for group operations (temp-users page)
+
+    // finds multiple users by sending multiple usernames
+    findUsersByUsernames: builder.query({
+      query: (usernames) => ({
+        url: "users/findByUsernames",
+        method: "post",
+        data: { usernames },
+      }),
+      transformResponse: transformResponseForGetAllUsersTable,
+    }),
+
+    addManyUsersToChannel: builder.mutation({
+      query: ({ channelIdentifier, users }) => ({
+        url: `/channels/${channelIdentifier}/members`,
+        method: "post",
+        data: { users }, // partial object of users, '_id', 'username', 'fullname'
+      }),
+      // UsersOfChannel provides channel _id (not identifier)
+      invalidatesTags: (result) =>
+        result ? [{ type: "UsersOfChannel", id: result?.channel?._id }] : [],
+    }),
+
+    // only request method differs from the above
+    removeManyUsersFromChannel: builder.mutation({
+      query: ({ channelIdentifier, users }) => ({
+        url: `/channels/${channelIdentifier}/members`,
+        method: "delete",
+        data: { users }, // partial object of users, '_id', 'username', 'fullname'
+      }),
+      // UsersOfChannel provides channel _id (not identifier)
+      invalidatesTags: (result) =>
+        result ? [{ type: "UsersOfChannel", id: result?.channel?._id }] : [],
+    }),
+
+    /////////////////////////////////////////////////////////////////////////
+    // queries for group operations (users page)
+
+    addManyUsers: builder.mutation({
+      query: (users) => ({
+        url: "/users/addMany",
+        method: "post",
+        data: { users },
+      }),
+      invalidatesTags: (result) =>
+        result ? [{ type: "Users", id: "LIST" }] : [],
+    }),
+
+    editManyUsers: builder.mutation({
+      query: (users) => ({
+        url: "/users/editMany",
+        method: "patch",
+        data: { users },
+      }),
+      invalidatesTags: (result) =>
+        result
+          ? [
+              ...result?.entities?.map(({ _id }) => ({
+                type: "Users",
+                id: _id,
+              })),
+              { type: "Users", id: "LIST" },
+            ]
+          : [],
+    }),
+
+    deleteManyUsers: builder.mutation({
+      query: (users) => ({
+        url: "/users/deleteMany",
+        method: "delete",
+        data: { users },
+      }),
+      invalidatesTags: (result) =>
+        result
+          ? [
+              ...result?.entities?.map(({ _id }) => ({
+                type: "Users",
+                id: _id,
+              })),
+              { type: "Users", id: "LIST" },
+            ]
+          : [],
     }),
   }),
 });
@@ -344,4 +427,12 @@ export const {
   useGetSystemRolesQuery,
   useGetStudentPositionsQuery,
   useGetLecturerPositionsQuery,
+
+  useLazyFindUsersByUsernamesQuery,
+  useAddManyUsersToChannelMutation,
+  useRemoveManyUsersFromChannelMutation,
+
+  useAddManyUsersMutation,
+  useEditManyUsersMutation,
+  useDeleteManyUsersMutation,
 } = apiSlice;

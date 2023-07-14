@@ -4,6 +4,9 @@ import styles from "./Menu.module.scss";
 
 // import { NavLink } from 'react-router-dom';
 
+import { useSelector } from "react-redux";
+import { selectTempUsersCount } from "../../redux/tempUsersSlice";
+
 import MenuItem from "./MenuItem";
 
 import TextOverflow from '../shared/TextOverflow';
@@ -51,7 +54,7 @@ function Menu() {
 }
 
 function RequestsMenuItem() {
-  const number = 78;
+  const number = 0;
   return (
     <div className={styles.menuItem}>
       <div>درخواست ها</div>
@@ -63,7 +66,7 @@ function RequestsMenuItem() {
 }
 
 function TempUsersMenuItem() {
-  const number = 65;
+  const number = useSelector(selectTempUsersCount);
   return (
     <div className={styles.menuItem}>
       <div>لیست موقت</div>

@@ -2,9 +2,9 @@
 
 .TempUsersTableTools {
   display: grid;
-  grid-template-columns: auto auto 1fr;
+  grid-template-columns: auto auto auto 1fr;
   column-gap: 1rem;
-  grid-template-areas: "buttonDropdown clearTempListBtn .";
+  grid-template-areas: "buttonDropdown exportTempUsersToExcelBtn clearTempListBtn .";
 }
 
 .buttonDropdown {
@@ -43,6 +43,26 @@
   }
   .addToTempListIcon {
     font-size: 1.3rem;
+  }
+}
+
+.exportTempUsersToExcelBtn {
+  grid-area: exportTempUsersToExcelBtn;
+
+  max-width: 13rem;
+
+  border: 1px solid vars.$temp-users-table-header-color;
+  // color: #fff;
+  color: vars.$temp-users-table-header-color;
+  // background-color: vars.$danger-color;
+  background: none;
+
+  &:hover {
+    box-shadow: 0 0 5px vars.$temp-users-table-header-color;
+  }
+
+  .downloadIcon {
+    font-size: 1.1rem;
   }
 }
 

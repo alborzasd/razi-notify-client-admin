@@ -3,8 +3,13 @@ import styles from "./usersTableConfig.module.scss";
 import { useState } from "react";
 import classNames from "classnames";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { canCurrentUserModifyThisUser } from "../../redux/authSlice";
+import {
+  selectIsUserIdInsideTempUsers,
+  addUserToTempUsersTable,
+  removeUserIdFromTempUsersTable,
+} from "../../redux/tempUsersSlice";
 
 import { useGetUsersQuery, useDeleteUserMutation } from "../../redux/apiSlice";
 
@@ -110,27 +115,41 @@ export function Department({ data: user }) {
 }
 
 export function Actions({ data: user, showDeleteBtn, className }) {
+  const dispatch = useDispatch();
+
   const canModify = useSelector((state) =>
     canCurrentUserModifyThisUser(state, user)
   );
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [isAddedToTempList, setIsAddedToTempList] = useState(false);
+  // const [isAddedToTempList, setIsAddedToTempList] = useState(false);
+  const isUserIdInsideTempUsersTable = useSelector((state) =>
+    selectIsUserIdInsideTempUsers(state, user._id)
+  );
 
   const toggleAddedToTempList = () => {
-    setIsAddedToTempList((prev) => !prev);
+    // setIsAddedToTempList((prev) => !prev);
+    if(isUserIdInsideTempUsersTable){
+      dispatch(removeUserIdFromTempUsersTable(user._id));
+    } else {
+      dispatch(addUserToTempUsersTable(user));
+    }
   };
 
   const addToTempListBtnClassname = classNames(styles.addToTempListBtn, {
-    [styles.active]: isAddedToTempList,
+    [styles.active]: isUserIdInsideTempUsersTable,
   });
 
   const [triggerDelete] = useDeleteUserMutation();
 
   const openModal = () => {
-    setModalIsOpen(true);
+    setIsModalOpen(true);
   };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
 
   const submitDelete = async () => {
     let id;
@@ -176,8 +195,8 @@ export function Actions({ data: user, showDeleteBtn, className }) {
       <WarningModal
         data={user}
         WarningParagraph={WarningParagraph}
-        isOpen={modalIsOpen}
-        setIsOpen={setModalIsOpen}
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
         onConfirmClick={submitDelete}
         confirmButtonText={"حذف"}
       />
@@ -191,7 +210,7 @@ export function HeaderColumn({ className, title }) {
 }
 
 // other components
-// also use by user details
+// also use by user details ?
 export const WarningParagraph = ({ data: user }) => (
   <>
     <p className={styles.modalWarningText}>آیا از حذف این کاربر مطمئن هستید؟</p>

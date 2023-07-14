@@ -50,7 +50,14 @@ const initialState = {
       displaySearchValue: "",
       pageNum: 1,
       pageSize: 10,
-    },    
+    },
+
+    // may be used later
+    // for client side pagination
+    [tableInstanceNames.tempUsers]: {
+      pageNum: 1,
+      pageSize: 10
+    }
   },
 };
 
@@ -112,4 +119,10 @@ export const selectMessagesOfChannelFilterConfig = createSelector(
   (state) =>
     selectFilterConfigInstace(state, tableInstanceNames.messagesOfChannel),
   (messagesOfChannelFilterConfig) => messagesOfChannelFilterConfig
+);
+
+// tempUsers table selectors
+export const selectTempUsersFilterConfig = createSelector(
+  (state) => selectFilterConfigInstace(state, tableInstanceNames.tempUsers),
+  (tempUsersFilterConfig) => tempUsersFilterConfig
 );

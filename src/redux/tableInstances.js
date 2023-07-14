@@ -19,4 +19,5 @@ export const tableInstanceNames = {
   usersOfChannel: 'usersOfChannel',
   messagesOfChannel: 'messagesOfChannel',
   allUsers: 'allUsers',
+  tempUsers: 'tempUsers',
 };
