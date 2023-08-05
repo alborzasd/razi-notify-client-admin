@@ -1,0 +1,46 @@
+@use "../assets/scss/vars";
+
+.CustomLexicalEditor {
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  position: relative; // for placeholder
+}
+
+.contentEditable {
+  min-height: 100%;
+  font-size: 1rem;
+
+  padding: 0.5rem;
+  padding-bottom: 5rem;
+
+  border: 1px solid #bbb;
+
+  border-bottom-left-radius: vars.$border-radius;
+  border-bottom-right-radius: vars.$border-radius;
+
+  &:focus {
+    border: 1px solid vars.$primary-color;
+    outline: none;
+  }
+
+  &.active {
+    background-color: rgba(#fff, 1);
+    animation: 0.25s fadeIn;
+  }
+
+  @keyframes fadeIn {
+    from {
+      background-color: rgba(#fff, 0);
+    }
+    to {
+      background-color: rgba(#fff, 1);
+    }
+  }
+}
+
+.placeholder {
+  position: absolute;
+  top: 0;
+  color: rgba(0, 0, 0, 0.5);
+}

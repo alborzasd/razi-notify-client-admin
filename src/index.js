@@ -19,6 +19,7 @@ import ChannelAddPage from './pages/channels/add/ChannelAddPage';
 import ChannelDetailsPage from './pages/channels/details/ChannelDetailsPage';
 import UsersPage from './pages/users/UsersPage';
 import TempUsersPage from './pages/temp-users/TempUsersPage';
+import MessageDetailsPage from './pages/message-details/MessageDetailsPage';
 
 const router = createBrowserRouter([
   {
@@ -50,7 +51,11 @@ const router = createBrowserRouter([
           {
             path: '/channels/:identifier',
             element: <ChannelDetailsPage />
-          },          
+          },
+          {
+            path: '/channels/:identifier/messages/:messageId',
+            element: <MessageDetailsPage />
+          },
           {
             path: '/users',
             element: <UsersPage />

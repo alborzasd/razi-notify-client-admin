@@ -1,0 +1,15 @@
+@use '../../../assets/scss/vars';
+
+.toolbar {
+  min-height: 2.6rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+
+  border: 1px solid #bbb;
+  border-bottom: none;
+
+  border-top-left-radius: vars.$border-radius;
+  border-top-right-radius: vars.$border-radius;
+
+  background-color: rgb(235, 235, 235);
+}

@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useGetUsersQuery } from "../../redux/apiSlice";
 import { selectAllUsersFilterConfig } from "../../redux/filterConfigSlice";
 import { addManyUsersToTempUsersTable } from "../../redux/tempUsersSlice";
+import { selectIsUserRootAdmin } from "../../redux/authSlice";
 
 import TableSearch from "../../components/shared/table-search/TableSearch";
 import Button, { ButtonDropdown } from "../../components/shared/Button";
@@ -20,6 +21,8 @@ import { LuFileEdit } from "react-icons/lu";
 import { HiOutlineDocumentRemove } from "react-icons/hi";
 
 import { tableInstanceNames } from "../../redux/tableInstances";
+
+import classNames from "classnames";
 
 import {
   primaryDropdownConfig,
@@ -34,11 +37,17 @@ import {
 } from "./groupOperationModalConfig";
 import { GroupOperationModal } from "../../components/shared/Modal";
 
-function UsersTableTools() {  
+function UsersTableTools() {
+
+  const isRootAdmin = useSelector(selectIsUserRootAdmin);
+
+  const userTableToolsClassname = classNames(styles.UsersTableTools, {
+    [styles.noDropdown]: !isRootAdmin
+  });
 
   return (
-    <div className={styles.UsersTableTools}>
-      <GroupOperationsDropdown />
+    <div className={userTableToolsClassname}>
+      {isRootAdmin && <GroupOperationsDropdown />}
 
       <TableSearch
         className={styles.tableSearch}
@@ -55,6 +64,7 @@ function UsersTableTools() {
 }
 
 function GroupOperationsDropdown() {
+
   // stores name of the modal that must be open
   const [openedModalInstanceName, setOpenedModalInstanceName] = useState(false);
 

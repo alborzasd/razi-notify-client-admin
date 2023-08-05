@@ -1,0 +1,129 @@
+@use "../../assets/scss/vars";
+
+$data-field-background-color: rgb(231, 236, 246);
+$data-value-padding-vertical: 0.5rem;
+$data-value-margin-right: 1rem;
+
+.DataField {
+  display: grid;
+  // grid-template-columns: auto 1fr;
+  // grid-template-columns: repeat(auto-fill, minmax(3rem, 1fr));
+  grid-template-rows: auto 1fr;
+  gap: 0.25rem;
+
+  // align-items: center;
+
+  min-height: 3rem;
+  padding: 1rem 0.5rem 0.5rem;
+
+  font-size: 1.1rem;
+
+  // background-color: rgba(vars.$secondary-color, 0.1);
+  background-color: $data-field-background-color;
+  border-radius: vars.$border-radius;
+
+  // tries to move the long word to new line otherwise break that word ?
+  overflow-wrap: anywhere;
+  // word-wrap is same is overflow-wrap supported in older browsers
+  word-wrap: anywhere;
+  // break-word value is deprecated but browsers supports them
+  // break-all value will break the word on the same line
+  // word-break: break-all;
+  hyphens: auto;
+
+  position: relative; // for loading overlay
+}
+
+.loadingOverlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: vars.$border-radius;
+
+  background: linear-gradient(
+    120deg,
+    $data-field-background-color 30%,
+    #fefefe 38%,
+    #fefefe 40%,
+    $data-field-background-color 48%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  animation: moveGradient 1s infinite;
+
+  &.active {
+    display: block;
+  }
+
+  @keyframes moveGradient {
+    to {
+      background-position: -50% 0;
+    }
+  }
+}
+
+.label {
+  align-self: start;
+
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  color: #555;
+  font-size: 1rem;
+}
+
+.title {
+  font-size: 1em;
+}
+
+.value {
+  // 1px is for border width at top and bottom
+  min-height: 2.6rem;
+
+  font-size: 0.9em;
+  margin-right: $data-value-margin-right;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+
+  padding-top: $data-value-padding-vertical;
+  padding-bottom: $data-value-padding-vertical;
+
+  // to eliminate glitch when switch from display mode to edit mode
+  border: 1px solid transparent;
+}
+
+.input {  
+
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  // font-size: 1.1rem;
+  // padding: 0.5rem;
+  background-color: rgba(#fff, 1);
+
+  animation: 0.25s fadeIn;
+
+  transition: 0.05s;
+  resize: none; // for textarea
+  &:focus {
+    outline: vars.$input-focus-outline;
+  }
+
+  @keyframes fadeIn {
+    from {
+      background-color: rgba(#fff, 0);
+    }
+    to {
+      background-color: rgba(#fff, 1);
+    }
+  }
+}
+
+// will be passed to editor container className
+.marginRight {
+  margin-right: $data-value-margin-right;
+}

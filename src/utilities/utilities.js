@@ -15,6 +15,14 @@ export function toPersianDateStr(dateStr) {
   return persianDate;
 }
 
+export function toPersianDateTimeStr(dateStr) {
+  const persianDate = dateStr
+    ? new PersianDate(new Date(dateStr)).format("YYYY/MM/DD HH:mm")
+    : "_";
+
+  return persianDate;
+}
+
 export function persianDateNow() {
   return new PersianDate().format("YYYY/MM/DD");
 }

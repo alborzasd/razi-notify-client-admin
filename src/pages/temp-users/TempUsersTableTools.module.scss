@@ -49,7 +49,7 @@
 .exportTempUsersToExcelBtn {
   grid-area: exportTempUsersToExcelBtn;
 
-  max-width: 13rem;
+  width: 11rem;
 
   border: 1px solid vars.$temp-users-table-header-color;
   // color: #fff;
@@ -84,4 +84,8 @@
   .clearIcon {
     font-size: 1.1rem;
   }
+}
+
+:export {
+  spinnerColor: vars.$temp-users-table-header-color;
 }

@@ -16,7 +16,8 @@
 
     overflow: hidden;
 
-    box-shadow: vars.$box-shadow-1;
+    box-shadow: vars.$box-shadow-data-table;
+    // border: 1px solid #ccc;
 }
 
 .rowList {
@@ -25,6 +26,8 @@
     // overflow-y: scroll;
     overflow-y: auto;
     // overflow-x: auto;
+
+    // border: 1px solid #ccc;
 
     & > :nth-child(2n){
         background-color: rgba(0, 0, 0, 0.05);

@@ -46,21 +46,15 @@ import {
 } from "../../../redux/authSlice";
 
 import { toast } from "react-toastify";
-import { resolvedToastOptions } from "../../../components/shared/CustomToastContainer";
+import {
+  resolvedToastOptions,
+  customToastIds,
+} from "../../../components/shared/CustomToastContainer";
 
 import { useNavigate } from "react-router-dom";
 
 import { tableInstanceNames } from "../../../redux/tableInstances";
 import { setFilterConfig } from "../../../redux/filterConfigSlice";
-
-// these toast Ids are used to prevent duplicate toast
-// if user presses submit multiple times
-const customToastIds = {
-  // Id of the toast that is fired when user hits submit with empty input
-  emptyInput: "emptyInput",
-  // Id of the toast that is fired when user hits submit but input is same as current data
-  unchangedInput: "unchangedInput",
-};
 
 function ChannelInfo() {
   const dispatch = useDispatch();

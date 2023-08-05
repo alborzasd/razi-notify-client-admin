@@ -1,9 +1,11 @@
 import styles from './HomePage.module.scss';
 
+import NewMessage from './NewMessage';
+
 function HomePage() {
     return (
         <div className={styles.HomePage}>
-            HomePage
+            <NewMessage />
         </div>
     )
 }

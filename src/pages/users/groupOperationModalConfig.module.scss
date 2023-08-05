@@ -45,6 +45,10 @@
     color: vars.$primary-color;
     // font-size: 0.9rem;
     // padding-right: 1rem;
+    &.danger {
+      color: vars.$danger-color;
+      font-weight: 600;
+    }
   }
 
   .imgContainer {
@@ -94,10 +98,10 @@
 
     .icon {
       font-size: 1.2rem;
-    }
+    }    
   }
 
-  .fileChangeStatusText {
+  .fileChangeStatusText, .departmentValidationErrorText {
     min-height: 1.5rem;
     // margin: auto;
     text-align: center;
@@ -107,6 +111,13 @@
     &.error {
       color: vars.$danger-color;
     }
+  }
+
+  .departmentsDropdown {
+    width: 80%;
+    height: 2.7rem;
+    margin: auto;
+    border-radius: vars.$border-radius;
   }
 
   // .textInput {

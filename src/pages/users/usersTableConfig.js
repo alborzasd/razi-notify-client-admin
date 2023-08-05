@@ -130,7 +130,7 @@ export function Actions({ data: user, showDeleteBtn, className }) {
 
   const toggleAddedToTempList = () => {
     // setIsAddedToTempList((prev) => !prev);
-    if(isUserIdInsideTempUsersTable){
+    if (isUserIdInsideTempUsersTable) {
       dispatch(removeUserIdFromTempUsersTable(user._id));
     } else {
       dispatch(addUserToTempUsersTable(user));
@@ -149,7 +149,6 @@ export function Actions({ data: user, showDeleteBtn, className }) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
 
   const submitDelete = async () => {
     let id;
@@ -213,6 +212,12 @@ export function HeaderColumn({ className, title }) {
 // also use by user details ?
 export const WarningParagraph = ({ data: user }) => (
   <>
+    <p className={styles.modalWarningText}>
+      <span className={styles.specialText}>
+        با حذف هر کاربر تمام کانال ها و پیام های ایجاد شده توسط آن کاربر حذف
+        خواهد شد.
+      </span>
+    </p>
     <p className={styles.modalWarningText}>آیا از حذف این کاربر مطمئن هستید؟</p>
     <p className={styles.modalWarningText}>
       <span className={styles.specialText}>

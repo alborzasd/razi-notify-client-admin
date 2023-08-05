@@ -95,7 +95,7 @@ function Actions({ data: message }) {
       <NavLinkButton
         title="مشاهده/ویرایش"
         className={styles.detailsBtn}
-        to={`/channels/${message?.channel?._id}/messages/${message?._id || ""}`}
+        to={`/channels/${message?.channel?.identifier}/messages/${message?._id || ""}`}
       >
         <BsInfoSquare />
       </NavLinkButton>

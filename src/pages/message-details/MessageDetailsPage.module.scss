@@ -1,8 +1,7 @@
-.HomePage {
+.MessageDetailsPage {
   display: grid;
-  // grid-template-rows: auto auto;
-  // row-gap: 1rem;
   grid-template-columns: 95%;
+  grid-template-rows: auto 1fr;
   justify-content: center; // div.container margin:auto
 
   padding: 1.5rem 0;

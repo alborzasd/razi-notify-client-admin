@@ -130,6 +130,24 @@ export const apiSlice = createApi({
         result ? [{ type: "Channels", id: "LIST" }] : [],
     }),
 
+    getMyOwnChannels: builder.query({
+      query: (searchValue) => ({
+        url: "/channels",
+        method: "get",
+        params: { template:"myOwn", searchValue },
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              { type: "Channels", id: "LIST" },
+              ...result.map((channel) => ({
+                type: "Channels",
+                id: channel?._id,
+              })),
+            ]
+          : [{ type: "Channels", id: "LIST" }],
+    }),
+
     ///////////////////////////////////////////////
 
     getUsers: builder.query({
@@ -234,8 +252,8 @@ export const apiSlice = createApi({
     }),
 
     getMessage: builder.query({
-      query: ({ channelId, messageId }) => ({
-        url: `/channels/${channelId}/messages/${messageId}`,
+      query: ({ channelIdentifier, messageId }) => ({
+        url: `/channels/${channelIdentifier}/messages/${messageId}`,
         method: "get",
       }),
       providesTags: (result) => [{ type: "Messages", id: result?._id }],
@@ -380,10 +398,10 @@ export const apiSlice = createApi({
     }),
 
     deleteManyUsers: builder.mutation({
-      query: (users) => ({
+      query: (usernames) => ({
         url: "/users/deleteMany",
         method: "delete",
-        data: { users },
+        data: { usernames },
       }),
       invalidatesTags: (result) =>
         result
@@ -406,6 +424,7 @@ export const {
   useGetChannelByIdentifierQuery,
   useEditChannelMutation,
   useCreateChannelMutation,
+  useGetMyOwnChannelsQuery,
 
   useGetUsersQuery,
   useInvalidateUsersMutation,

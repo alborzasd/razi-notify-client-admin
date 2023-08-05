@@ -12,6 +12,7 @@ function DropdownInput({
   searchValue,
   setSearchValue,
   setDisplaySearchValue,
+  containerClassname,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState();
@@ -114,7 +115,7 @@ function DropdownInput({
 
   return (
     <div
-      className={styles.DropdownInput}
+      className={styles.DropdownInput + ' ' + containerClassname}
       onClick={toggleDropdown}
       ref={dropDownRef}
     >

@@ -309,7 +309,7 @@ function AddMembersToTempUsersTableModalBody({ closeModal }) {
         jsonData = event?.data?.data;
         error = event?.data?.error;
         // console.log('result', result);
-        console.log("jsonData", jsonData);
+        // console.log("jsonData", jsonData);
         // console.log('error', error);
         res();
       };

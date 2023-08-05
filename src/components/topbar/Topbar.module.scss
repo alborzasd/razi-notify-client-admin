@@ -15,18 +15,18 @@
     top: 0;
     z-index: vars.$topbar-z-index; // overlap on scrollbar component (table rows)
 
-    background-color: vars.$primary-color;
+    // background-color: vars.$primary-color;
+    background-color: rgb(235, 235, 235);
+    background-color: vars.$layout-background-color;
     // background-color: vars.$secondary-color;
-    // background-color: darken(vars.$layout-background-color, 40);
-    // background-color: #fff;
-    // background-color: #AD7BE9;
-    // background-color: #5D3891;
-    box-shadow: vars.$box-shadow-topbar;
+    // box-shadow: vars.$box-shadow-topbar;
+    border-bottom: 1px solid #ccc;
 }
 
 .title {
     grid-area: title;
-    color: #fff;
+    // color: #fff;
+    color: vars.$primary-color;
     font-size: 1rem;
 }
 
@@ -42,7 +42,7 @@
     background: none;
     border: none;
 
-    color: #fff;
+    color: vars.$primary-color;
 
     visibility: hidden;
     @include mediaquery.sidebar {
