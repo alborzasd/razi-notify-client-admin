@@ -25,6 +25,8 @@ import {
 } from "./groupOperationModalConfig";
 import { GroupOperationModal } from "../../components/shared/Modal";
 
+import ExcelToJsonWorker from '../../workers/xlsx/excelToJsonWorker?worker';
+
 function TempUsersTableTools() {
   return (
     <div className={styles.TempUsersTableTools}>
@@ -127,9 +129,11 @@ function ExportTempUsersToExcelButton() {
 
   const handleExportToExcel = async () => {
     // start worker
-    const worker = new Worker(
-      new URL("../../workers/xlsx/excelToJsonWorker", import.meta.url)
-    );
+    // const worker = new Worker(
+    //   new URL("../../workers/xlsx/excelToJsonWorker", import.meta.url),
+    //   { type: "module" }
+    // );
+    const worker = new ExcelToJsonWorker();
     // show loading spinner inside button
     setIsProcessing(true);
 

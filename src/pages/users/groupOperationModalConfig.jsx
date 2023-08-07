@@ -31,6 +31,8 @@ import addManyUsersImageSample from "../../assets/content-images/add-many-users-
 import editManyUsersImageSample from "../../assets/content-images/edit-many-users-sample.png";
 import deleteManyUsersImageSample from "../../assets/content-images/delete-many-users-sample.png";
 
+import ExcelToJsonWorker from '../../workers/xlsx/excelToJsonWorker?worker';
+
 ////////////////////////////////////////////////////////////////
 
 const departmnetsDropdownConfig = {
@@ -62,9 +64,11 @@ function AddManyUsersModalBody({ closeModal }) {
 
   // handle init and terminate worker
   useEffect(() => {
-    excelToJsonWorkerRef.current = new Worker(
-      new URL("../../workers/xlsx/excelToJsonWorker", import.meta.url)
-    );
+    // excelToJsonWorkerRef.current = new Worker(
+    //   new URL("../../workers/xlsx/excelToJsonWorker", import.meta.url),
+    //   { type: "module" }
+    // );
+    excelToJsonWorkerRef.current = new ExcelToJsonWorker();
     return () => {
       excelToJsonWorkerRef.current.terminate();
     };
@@ -482,9 +486,11 @@ function EditManyUsersModalBody({ closeModal }) {
 
   // handle init and terminate worker
   useEffect(() => {
-    excelToJsonWorkerRef.current = new Worker(
-      new URL("../../workers/xlsx/excelToJsonWorker", import.meta.url)
-    );
+    // excelToJsonWorkerRef.current = new Worker(
+    //   new URL("../../workers/xlsx/excelToJsonWorker", import.meta.url),
+    //   { type: "module" }
+    // );
+    excelToJsonWorkerRef.current = new ExcelToJsonWorker();
     return () => {
       excelToJsonWorkerRef.current.terminate();
     };
@@ -923,9 +929,11 @@ function DeleteManyUsersModalBody({ closeModal }) {
 
   // handle init and terminate worker
   useEffect(() => {
-    excelToJsonWorkerRef.current = new Worker(
-      new URL("../../workers/xlsx/excelToJsonWorker", import.meta.url)
-    );
+    // excelToJsonWorkerRef.current = new Worker(
+    //   new URL("../../workers/xlsx/excelToJsonWorker", import.meta.url),
+    //   { type: "module" }
+    // );
+    excelToJsonWorkerRef.current = new ExcelToJsonWorker();
     return () => {
       excelToJsonWorkerRef.current.terminate();
     };

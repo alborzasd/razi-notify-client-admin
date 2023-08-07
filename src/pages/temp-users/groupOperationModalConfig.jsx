@@ -28,6 +28,8 @@ import { SiMicrosoftexcel } from "react-icons/si";
 
 import addMembersToTempUsersListImageSample from "../../assets/content-images/add-member-to-temp-users-table-sample.png";
 
+import ExcelToJsonWorker from '../../workers/xlsx/excelToJsonWorker?worker';
+
 ////////////////////////////////////////////////////////////////
 
 export const modalInstanceNames = {
@@ -249,9 +251,11 @@ function AddMembersToTempUsersTableModalBody({ closeModal }) {
 
   // handle init and terminate worker
   useEffect(() => {
-    excelToJsonWorkerRef.current = new Worker(
-      new URL("../../workers/xlsx/excelToJsonWorker", import.meta.url)
-    );
+    // excelToJsonWorkerRef.current = new Worker(
+    //   new URL("../../workers/xlsx/excelToJsonWorker", import.meta.url),
+    //   { type: "module" }
+    // );
+    excelToJsonWorkerRef.current = new ExcelToJsonWorker();
     return () => {
       excelToJsonWorkerRef.current.terminate();
     };

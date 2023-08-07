@@ -1,4 +1,5 @@
-const PersianDate = require("persian-date");
+// const PersianDate = require("persian-date");
+import PersianDate from "persian-date";
 
 export function paginate(array, pageSize, pageNum) {
   return array.slice((pageNum - 1) * pageSize, pageNum * pageSize);
