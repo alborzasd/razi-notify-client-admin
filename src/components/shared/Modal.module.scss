@@ -186,3 +186,13 @@
     opacity: 1;
   }
 }
+
+// warning message component
+.modalWarningText {
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+
+  .specialText {
+    color: vars.$danger-color;
+  }
+}

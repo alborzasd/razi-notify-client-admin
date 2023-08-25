@@ -1,0 +1,32 @@
+.ColorPickerButton {
+  position: relative; // for SketchPicker container
+}
+
+.openCloseIcon {
+  font-size: 0.75rem;
+  // margin-left: 0.2rem;
+
+  transition: 0.25s;
+  &.rotate {
+    transform: rotate(180deg);
+  }
+}
+
+.colorDisplay {
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1px solid black;
+
+  &.inactive {
+    opacity: 0.3;
+  }
+}
+
+.sketchPickerContainer {
+  position: absolute;
+  top: 2.3rem;
+  // right: 0;
+
+  border: none;
+  background-color: transparent;
+}

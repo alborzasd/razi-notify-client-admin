@@ -16,13 +16,10 @@ import {
 import Image from "../../../components/shared/Image";
 import channelLogo from "../../../assets/images/channel-logo.png";
 import Button from "../../../components/shared/Button";
-import { WarningModal } from "../../../components/shared/Modal";
-
 import {
-  WarningParagraph,
-  ChannelErrorToast,
-  ChannelSuccessToast,
-} from "../ChannelRow";
+  WarningModal,
+  ChannelDeleteWarning,
+} from "../../../components/shared/Modal";
 
 import { BiCommentDetail } from "react-icons/bi";
 import { BiEdit } from "react-icons/bi";
@@ -49,6 +46,8 @@ import { toast } from "react-toastify";
 import {
   resolvedToastOptions,
   customToastIds,
+  ChannelSuccessToast,
+  ChannelErrorToast,
 } from "../../../components/shared/CustomToastContainer";
 
 import { useNavigate } from "react-router-dom";
@@ -372,7 +371,7 @@ function ChannelInfo() {
     <>
       <WarningModal
         data={channel}
-        WarningParagraph={WarningParagraph}
+        WarningParagraph={ChannelDeleteWarning}
         isModalOpen={isModalOpen}
         closeModal={closeWarningModal}
         onConfirmClick={submitDelete}

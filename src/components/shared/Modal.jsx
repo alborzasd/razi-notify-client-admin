@@ -106,3 +106,53 @@ function GroupOperationModal({ config, isModalOpen, closeModal }) {
 }
 
 export { WarningModal, GroupOperationModal };
+
+// warning message paragraph
+
+export const MessageDeleteWarning = ({ data: message }) => {
+  return (
+    <>
+      <p className={styles.modalWarningText}>
+        <span>آیا از حذف پیام</span>&nbsp;
+        <span className={styles.specialText}>{message?.title}</span>&nbsp;
+        <span>مطمئن هستید؟</span>
+      </p>
+    </>
+  );
+};
+
+export const ChannelDeleteWarning = ({ data: channel }) => {
+  return (
+    <>
+      <p className={styles.modalWarningText}>
+        با حذف این کانال، محتوا و پیام های آن نیز پاک خواهد شد.
+      </p>
+      <p className={styles.modalWarningText}>
+        <span>آیا از حذف کانال</span>&nbsp;
+        <span className={styles.specialText}>{channel?.title}</span>&nbsp;
+        <span>مطمئن هستید؟</span>
+      </p>
+    </>
+  );
+};
+
+export const UserDeleteWarning = ({ data: user }) => {
+  return (
+    <>
+      <p className={styles.modalWarningText}>
+        <span className={styles.specialText}>
+          با حذف هر کاربر تمام کانال ها و پیام های ایجاد شده توسط آن کاربر حذف
+          خواهد شد.
+        </span>
+      </p>
+      <p className={styles.modalWarningText}>
+        آیا از حذف این کاربر مطمئن هستید؟
+      </p>
+      <p className={styles.modalWarningText}>
+        <span className={styles.specialText}>
+          {user?.first_name + " " + user?.last_name}
+        </span>
+      </p>
+    </>
+  );
+};

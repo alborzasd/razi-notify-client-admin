@@ -1,0 +1,31 @@
+@use '../../../../assets/scss/vars';
+
+.ToolbarButton {  
+  border: none;
+
+  background-color: transparent;
+  font-size: 1rem;
+  min-width: 2rem;
+  height: 2rem;
+
+  color: #333;
+
+  transition: 0.15s;
+
+  // if prop activatedStyleSameAsHover===true
+  // class .hoverActivated will be set on button
+  // it means the hover and active state should have same styling
+  // used for color picker dropdown
+  &:hover:not(.disabled):not(.activated), &.hoverActivated {
+    // background-color: #ccc;
+    background-color: rgba(vars.$primary-color, 0.2);
+  }
+
+  &.disabled {
+    opacity: 0.4;
+  }
+  &.activated {
+    background-color: rgba(vars.$primary-color, 0.8);
+    color: #fff;
+  }
+}

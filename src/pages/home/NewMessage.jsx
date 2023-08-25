@@ -1,6 +1,7 @@
 import styles from "./NewMessage.module.scss";
 
-import { useRef, useState, useMemo, useEffect } from "react";
+import React from "react";
+import { useRef, useState, useMemo, useEffect, useCallback } from "react";
 
 import {
   useGetMyOwnChannelsQuery,
@@ -9,6 +10,7 @@ import {
 
 import Button from "../../components/shared/Button";
 import RtlScrollbars from "../../components/shared/RtlScrollbars";
+import Checkbox from "../../components/shared/Checkbox";
 
 import classNames from "classnames";
 
@@ -23,13 +25,24 @@ import { toast } from "react-toastify";
 import {
   resolvedToastOptions,
   customToastIds,
+  MessageSuccessToast,
+  MessageErrorToast
 } from "../../components/shared/CustomToastContainer";
+
+import CustomLexicalEditor from "../../lexical-editor/CustomLexicalEditor";
+import { getEditorStateTextContent } from "../../lexical-editor/utilities/utilities";
+import { availableNameSpaces } from "../../lexical-editor/constants/constants";
 
 function NewMessage() {
   const [messageTitle, setMessageTitle] = useState("");
-  const [messageBody, setMessageBody] = useState("");
   const [channelId, setChannelId] = useState("");
   const [isSmsEnabled, setIsSmsEnabled] = useState(false);
+
+  const messageBodyRef = useRef();
+  // will be toggled between 0, 1 when we want to reset content
+  const [editorComponentKey, setEditorComponentKey] = useState(0);
+
+  const [checkboxComponentKey, setCheckboxComponentKey] = useState(0);
 
   // this value is not submitted to create channel
   // is submitted with another get query to search channels
@@ -43,9 +56,31 @@ function NewMessage() {
     setIsSmsEnabled((prev) => !prev);
   };
 
+  const toggleEditorComponentKey = useCallback(() => {
+    setEditorComponentKey((prev) => (prev === 0 ? 1 : 0));
+  }, []);
+
+  const toggleCheckboxComponentKey = useCallback(() => {
+    setCheckboxComponentKey((prev) => (prev === 0 ? 1 : 0));
+  }, []);
+
+  const handleEditorStateChange = useCallback(
+    (editorState) => {
+      messageBodyRef.current = editorState;
+    },
+    [messageBodyRef]
+  );
+
   const submitCreate = async () => {
-    if (!messageTitle || !messageBody) {
-      toast.error("عنوان و متن پیام نمی توانند خالی باشند", {
+    if (!messageTitle) {
+      toast.error("عنوان پیام نمی تواند خالی باشد.", {
+        toastId: customToastIds.emptyInput,
+      });
+      return;
+    }
+
+    if (!messageBodyRef.current) {
+      toast.error("متن پیام نمی تواند خالی باشد.", {
         toastId: customToastIds.emptyInput,
       });
       return;
@@ -58,13 +93,30 @@ function NewMessage() {
       return;
     }
 
+    // get editor state json and raw text
+    const messageRawText = await getEditorStateTextContent(
+      messageBodyRef.current
+    );
+    // maybe messageBodyRef is not empty (points to existing editorState obecjt)
+    // but text content is empty
+    if (!messageRawText) {
+      toast.error("متن پیام خالی است.", {
+        toastId: customToastIds.emptyInput,
+      });
+      return;
+    }
+    const messageJsonStr = JSON.stringify(messageBodyRef.current);
+
     let toastId;
     try {
       toastId = toast.loading(`در حال ارسال درخواست`, { type: "info" });
       await triggerCreate({
         channelId: channelId,
         title: messageTitle,
-        body: messageBody,
+        body: messageJsonStr,
+        bodyRawPreview: messageRawText.substring(0, 100),
+        // send to sms service
+        bodyRaw: isSmsEnabled ? messageRawText : "",
         smsEnabled: isSmsEnabled,
       }).unwrap();
       toast.success(
@@ -75,15 +127,18 @@ function NewMessage() {
         resolvedToastOptions
       );
       setMessageTitle("");
-      setMessageBody("");
       setIsSmsEnabled(false);
       // in order to reset channelId,
       // the form input must be reset also
       // becuase the selected channelId is hidden from user
       // he can only see the input value is typed
-      setChannelId('');
-      setChannelInputValue('');
+      setChannelId("");
+      setChannelInputValue("");
       setIsInputBySelect(false);
+      // unmount current editor
+      // then mount a new empty editor
+      toggleEditorComponentKey();
+      toggleCheckboxComponentKey();
     } catch (err) {
       toast.error(<MessageErrorToast err={err} />, resolvedToastOptions);
     } finally {
@@ -105,12 +160,12 @@ function NewMessage() {
         onChange={(e) => setMessageTitle(e.target.value)}
         placeholder="عنوان"
       />
-      <textarea
-        className={styles.input + " " + styles.messageBody}
-        value={messageBody}
-        onChange={(e) => setMessageBody(e.target.value)}
-        placeholder="متن"
+
+      <CustomEditorWrapper
+        key={"editor" + editorComponentKey}
+        onChange={handleEditorStateChange}
       />
+
       <ChannelSelector
         className={styles.channelSelector}
         setChannelId={setChannelId}
@@ -119,12 +174,15 @@ function NewMessage() {
         isInputBySelect={isInputBySelect}
         setIsInputBySelect={setIsInputBySelect}
       />
-      <div className={styles.smsCheckbox} onClick={toggleSmsEnabled}>
-        <div className={styles.checkBox}>
-          {isSmsEnabled && <FaCheck className={styles.checkIcon} />}
-        </div>
-        ارسال پیامک به اعضا
-      </div>
+
+      <Checkbox
+        key={"checkbox" + checkboxComponentKey}
+        className={styles.smsCheckbox}
+        label="ارسال همراه با پیامک"
+        onClick={(_newValue) => toggleSmsEnabled()}
+        isCheckedProp={isSmsEnabled}
+      />
+
       <Button className={styles.messageSubmit} onClick={submitCreate}>
         <LuSend />
         ارسال پیام
@@ -132,6 +190,27 @@ function NewMessage() {
     </div>
   );
 }
+
+// memoize editor component
+// to prevent rerender
+// every time user types in other fields (title, channle name, ...)
+const CustomEditorWrapper = React.memo(({ onChange }) => {
+  const handleChange = useCallback(
+    (editorState) => {
+      if (typeof onChange !== "function") return;
+      onChange(editorState);
+    },
+    [onChange]
+  );
+  return (
+    <CustomLexicalEditor
+      namespace={availableNameSpaces.mainPageEditor}
+      onChange={handleChange}
+      classNames={{ container: styles.messageBody }}
+      isEditable={true}
+    />
+  );
+});
 
 function ChannelSelector({
   className,
@@ -142,7 +221,7 @@ function ChannelSelector({
   setIsInputBySelect,
 }) {
   // const [channelInputValue, setChannelInputValue] = useState("");
-  
+
   // if user changes input value and 1s passes, the new input value will assign to this
   // the query hook follows this search value and trigger a request
   // if value is different from previous search value
@@ -266,34 +345,5 @@ function ChannelItem({ channel, onItemClick }) {
 function StatusContainer({ children }) {
   return <div className={styles.StatusContainer}>{children}</div>;
 }
-
-const MessageSuccessToast = ({ messageTitle, crudOperationType }) => {
-  const messageSlice = `پیام '${messageTitle}' با موفقیت `;
-  const whatHappened =
-    crudOperationType === "added"
-      ? messageSlice + "ارسال شد."
-      : crudOperationType === "edited"
-      ? messageSlice + "ویرایش شد."
-      : crudOperationType === "deleted"
-      ? messageSlice + "حذف شد."
-      : "عملیات با موفقیت انجام شد";
-  return <p>{whatHappened}</p>;
-};
-
-const MessageErrorToast = ({ err }) => {
-  const errorMessage = err?.message;
-  const errorDetails =
-    err?.responseData?.title ??
-    err?.responseData?.body ??
-    err?.responseData?.messagePersian ??
-    err?.responseData?.message;
-
-  return (
-    <>
-      <p>{errorMessage}</p>
-      <pre>{errorDetails}</pre>
-    </>
-  );
-};
 
 export default NewMessage;

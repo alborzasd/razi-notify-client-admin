@@ -6,51 +6,27 @@ import {
   $createLineBreakNode,
   $createTabNode,
   $createTextNode,
+  ParagraphNode,
 } from "lexical";
 
+import { LinkNode } from "@lexical/link";
+
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-// import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 
 import ToolbarPlugin from "./custom-plugins/ToolbarPlugin";
+import TriggerUpdatePlugin from "./custom-plugins/TriggerUpdatePlugin";
+import { CustomParagraphNode } from "./custom-ndoes/CustomParagraphNode";
+import CustomTheme from "./custom-theme/CustomEditorTheme";
+
+import { availableNameSpaces } from "./constants/constants";
 
 import generateClassNames from "classnames";
-
-const theme = {
-  // Theme styling goes here
-};
-
-// When the editor changes, you can get notified via the
-// LexicalOnChangePlugin!
-// function onChange(editorState) {
-//   editorState.read(() => {
-//     // Read the contents of the EditorState here.
-//     const root = $getRoot();
-//     const selection = $getSelection();
-
-//     console.log(root, selection);
-//   });
-// }
-
-// Lexical React plugins are React components, which makes them
-// highly composable. Furthermore, you can lazy load plugins if
-// desired, so you don't pay the cost for plugins until you
-// actually use them.
-// function MyCustomAutoFocusPlugin() {
-//   const [editor] = useLexicalComposerContext();
-
-//   useEffect(() => {
-//     // Focus the editor when the effect fires!
-//     editor.focus();
-//   }, [editor]);
-
-//   return null;
-// }
 
 // Catch any errors that occur during Lexical updates and log them
 // or throw them as needed. If you don't throw them, Lexical will
@@ -60,35 +36,38 @@ function onError(error) {
 }
 
 function CustomLexicalEditor({
-  namespace = "DefaultEditorName",
+  namespace = availableNameSpaces.default,
   onChange,
   // default value may be EditorState json object
   // json string or raw text string
   defaultValue,
-  defaultValueIsRawText, // raw text with multiple lines ('\n')
-  // containerClassName,
-  // contentEditableClassName,
   classNames,
-  placeholderComponent: PlaceholderComponent,
   isEditable,
 }) {
   const initialConfig = {
-    // TODO: initialize editorState in message details page
     namespace,
-    theme,
+    theme: CustomTheme,
     onError,
     editable: isEditable,
-    // editorState: defaultValue,
-    editorState:
-      defaultValueIsRawText === true
-        ? () => initializeEditorStateWithRawText(defaultValue)
-        : defaultValue,
+    editorState: (editor) => populateEditorState(editor, defaultValue),
+    nodes: [
+      LinkNode,
+      CustomParagraphNode,
+      {
+        replace: ParagraphNode,
+        with: (node) => new CustomParagraphNode(),
+      },
+    ],
   };
 
   return (
     <div className={styles.CustomLexicalEditor + " " + classNames?.container}>
       <LexicalComposer initialConfig={initialConfig}>
-        <ToolbarPlugin classNames={{ container: classNames?.toolbar }} />
+        <ToolbarPlugin
+          classNames={{ container: classNames?.toolbar }}
+          isEditable={isEditable}
+          namespace={namespace}
+        />
         <RichTextPlugin
           contentEditable={
             <ContentEditable
@@ -101,11 +80,8 @@ function CustomLexicalEditor({
               )}
             />
           }
-          placeholder={
-            Boolean(PlaceholderComponent) && (
-              <PlaceholderComponent className={styles.placeholder} />
-            )
-          }
+          // toolbar plugin will render placeholder
+          // placeholder={}
           ErrorBoundary={LexicalErrorBoundary}
         />
         <OnChangePlugin
@@ -113,10 +89,27 @@ function CustomLexicalEditor({
           ignoreSelectionChange={true}
         />
         <HistoryPlugin />
-        {/* <MyCustomAutoFocusPlugin /> */}
+        <LinkPlugin />
+        <TriggerUpdatePlugin />
       </LexicalComposer>
     </div>
   );
+}
+
+function populateEditorState(editor, defaultValue) {
+  if (!editor || !defaultValue) return;
+  // try to parse it as json string (the output from this editor itself)
+  // if throws error
+  // parse it as a raw string (my be raw text is added to db manually)
+  try {
+    const editorState = editor.parseEditorState(defaultValue);
+    editor.setEditorState(editorState);
+  } catch (err) {
+    // console.log("Parse editor state error => ", err);
+    if (typeof defaultValue === "string") {      
+      initializeEditorStateWithRawText(defaultValue);
+    }
+  }
 }
 
 function initializeEditorStateWithRawText(rawText) {

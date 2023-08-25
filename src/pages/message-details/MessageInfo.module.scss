@@ -3,13 +3,14 @@
 .MessageInfo {
   display: grid;
   grid-template-columns: 1fr 3fr;
-  grid-template-rows: auto auto auto auto 1fr;
+  grid-template-rows: auto auto auto auto auto 1fr;
   grid-template-areas:
     "channelTitle title"
     "senderName body"
     "createdAt body"
     "updatedAt body"
-    "buttons body";
+    "buttons body"
+    "smsCheckbox body";
   gap: 1rem;
 
   // height: 400px;
@@ -87,16 +88,23 @@
   grid-area: body;
 }
 
-.placeholder {
-  // margin-right: 1rem;
-  padding-right: 0.55rem;
-  padding-top: 2.6rem + 0.5rem;
+.smsCheckbox {
+  grid-area: smsCheckbox;
 
-  font-size: 0.9em;
+  height: 2.4rem;
 }
 
-// modifiers
-.ltrRightAlign {
+
+
+.DateValue {
   direction: ltr;
   text-align: right;
+
+  // copying '.value' styles from DataField.module.scss
+  // I know it's not clean way
+  // Fix that later :)
+  min-height: 2.6rem;
+  font-size: 0.9em;
+  padding: 0.5rem;
+  border: 1px solid transparent;
 }

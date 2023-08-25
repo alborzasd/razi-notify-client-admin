@@ -4,7 +4,7 @@
   display: grid;
   grid-template-rows: auto 1fr;
 
-  position: relative; // for placeholder
+  position: relative; // for placeholder & sticky toolbar
 }
 
 .contentEditable {
@@ -37,10 +37,4 @@
       background-color: rgba(#fff, 1);
     }
   }
-}
-
-.placeholder {
-  position: absolute;
-  top: 0;
-  color: rgba(0, 0, 0, 0.5);
 }

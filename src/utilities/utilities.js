@@ -5,6 +5,14 @@ export function paginate(array, pageSize, pageNum) {
   return array.slice((pageNum - 1) * pageSize, pageNum * pageSize);
 }
 
+// color utilities
+
+// a utility function that is used to
+// assign it's return value to a dom element style
+export function rgbaObjectToString(rgba = {r: 0, g: 0, b: 0, a: 0}) {
+  const {r, g, b, a} = rgba;
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
 
 // persian date utilities
 

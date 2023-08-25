@@ -1,0 +1,44 @@
+$text-underline-offset: 5px;
+
+.paragraph {
+  line-height: 1.8;
+  &:hover {
+    outline: 1px dashed #aaa;
+    // outline-offset: 4px;
+  }
+}
+
+// .rtl {
+//   direction: rtl;
+// }
+// .ltr {
+//   direction: ltr;
+// }
+
+.textBold {
+  font-weight: bold;
+}
+
+.textItalic {
+  font-style: italic;
+}
+
+.textUnderline {
+  text-decoration: underline;
+  text-underline-offset: $text-underline-offset;
+}
+
+.link {
+  color: rgb(33, 111, 219);
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: $text-underline-offset;
+  }
+}
+
+// when the label in link editor is hovered
+// this className will be added to a link
+// and removed on hover out
+.autoHover {
+  background-color: rgba(0, 0, 200, 0.3);
+}

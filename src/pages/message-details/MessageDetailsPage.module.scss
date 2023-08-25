@@ -6,5 +6,7 @@
 
   padding: 1.5rem 0;
 
-  overflow-x: hidden;
+  // if set to any value except visible
+  // the sticky toolbar for editor will not work
+  // overflow-x: hidden;
 }

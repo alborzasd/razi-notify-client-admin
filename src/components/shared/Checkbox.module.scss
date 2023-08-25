@@ -1,0 +1,36 @@
+@use '../../assets/scss/vars';
+
+.Checkbox {
+  grid-area: smsCheckbox;
+
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  cursor: pointer;
+
+  padding: 0.5rem;
+
+  // height: $input-height;
+  background-color: rgba(vars.$messages-table-header-color, 0.3);
+  // background-color: #fff;
+  // border: 1px solid vars.$messages-table-header-color;
+  border-radius: vars.$border-radius;     
+}
+
+.check {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid #bbb;
+  border-radius: vars.$border-radius;
+  background-color: #fff;
+}
+
+.checkIcon {
+  color: #555;
+  font-size: 1.1rem;
+}

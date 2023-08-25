@@ -1,0 +1,151 @@
+@use "../../../../assets/scss/vars";
+
+.LinkButton {
+  position: relative; // for menu container
+}
+
+.openCloseIcon {
+  font-size: 0.75rem;
+  // margin-left: 0.2rem;
+
+  transition: 0.25s;
+  &.rotate {
+    transform: rotate(180deg);
+  }
+}
+
+.menuContainer {
+  position: absolute;
+  top: 2.3rem;
+  // right: 0;
+
+  border: none;
+  background-color: transparent;
+
+  // display: none;
+  // &.open {
+  //   display: unset;
+  // }
+}
+
+////////////////////////////
+
+$padding: 0.25rem 0.6rem;
+.LinkMenu {
+  display: grid;
+
+  width: 250px;
+  min-height: 50px;
+  // max-height: 200px;
+  padding: $padding;
+  border: 1px solid #ddd;
+  border-radius: vars.$border-radius;
+  box-shadow: vars.$box-shadow-1;
+  // background-color: rgba(255, 255, 255, 0.9);
+  background-color: #fff;
+
+  font-size: 0.9rem;
+  
+  &.scrollable {
+    min-height: 170px;
+    padding: 0;
+  }
+}
+
+.paddingContainer {
+  padding: $padding;
+}
+
+.noSelectionDialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: right;
+
+  width: 100%;
+  height: 100%;
+}
+
+////////////////////////////
+
+.LinkItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: repeat(2, 2rem);
+  grid-template-areas: 
+    "label label"
+    "submitBtn linkInput";
+  column-gap: 0.35rem;
+  row-gap: 0.2rem;
+
+  width: 100%;
+  margin-bottom: 0.5rem;
+  
+  .label {
+    grid-area: label;
+    align-self: center;
+
+    text-align: right;
+    color: #666;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    padding: 0.25rem;
+    border-radius: vars.$border-radius;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+  .linkInput {
+    grid-area: linkInput;
+
+    direction: ltr;
+    font-size: inherit;
+
+    border: 1px solid #bbb;
+    border-radius: vars.$border-radius;
+    padding: 0.25rem 0.25rem;
+    &:focus {
+      outline: vars.$input-focus-outline;
+    }
+  }
+  .submitBtn {
+    grid-area: submitBtn;
+
+    // copied from Button.module.scss
+    // the inner submit button can not be a <button>
+    // because of dom validation warning
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    border-radius: vars.$border-radius;
+    cursor: pointer;
+    transition: 0.25s;
+
+    aspect-ratio: 1;
+
+    border: none;
+    padding: 0.1rem;
+    color: vars.$success-color;
+    background-color: #ececec;
+    // font-size: 1.3rem;
+
+    &:hover {
+      box-shadow: 0 0 4px #bbb;
+      // background-color: #e0e0e0;
+    }
+  }
+
+  .addIcon {
+    font-size: 1.3rem;
+  }
+  .editIcon {
+    font-size: 1.1rem;
+  }
+}
+

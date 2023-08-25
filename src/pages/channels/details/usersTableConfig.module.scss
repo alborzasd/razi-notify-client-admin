@@ -17,8 +17,9 @@ $column-gap: 0.5rem;
   width: $width;
   column-gap: $column-gap;
 
-  background-color: vars.$users-of-channel-table-header-color;
-  color: #fff;
+  // background-color: vars.$users-of-channel-table-header-color;
+  border-top: 3px solid vars.$users-of-channel-table-header-color;
+  // color: #fff;
 }
 .tableRow {
   // display: grid;
@@ -27,13 +28,3 @@ $column-gap: 0.5rem;
   width: $width;
   column-gap: $column-gap;
 }
-
-// .modalWarningText {
-
-//   font-size: 1.1rem;
-//   margin-bottom: 0.7rem;
-
-//   .specialText {
-//       color: vars.$danger-color;
-//   }
-// }

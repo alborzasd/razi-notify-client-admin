@@ -99,7 +99,7 @@ export const apiSlice = createApi({
       query: (id) => ({ url: `/channels/${id}`, method: "delete" }),
       // force channel list and channel details page to refetch
       invalidatesTags: (result, error, id) =>
-        result ? [{ type: "Channels", id }] : [],
+        result ? [{ type: "Channels", id: "LIST" }] : [],
     }),
 
     getChannelByIdentifier: builder.query({
@@ -134,7 +134,7 @@ export const apiSlice = createApi({
       query: (searchValue) => ({
         url: "/channels",
         method: "get",
-        params: { template:"myOwn", searchValue },
+        params: { template: "myOwn", searchValue },
       }),
       providesTags: (result) =>
         result
@@ -184,7 +184,7 @@ export const apiSlice = createApi({
         method: "delete",
       }),
       invalidatesTags: (result, error, userId) =>
-        result ? [{ type: "Users", userId }] : [],
+        result ? [{ type: "Users", id: "LIST" }] : [],
     }),
 
     getUserByUsername: builder.query({
@@ -202,7 +202,7 @@ export const apiSlice = createApi({
         data: body,
       }),
       invalidatesTags: (result, error, { userId }) =>
-        result ? [{ type: "Users", userId }] : [],
+        result ? [{ type: "Users", id: userId }] : [],
     }),
 
     createUser: builder.mutation({
@@ -248,7 +248,7 @@ export const apiSlice = createApi({
       }),
       // force messages list (in channel details) and messages details page to refetch
       invalidatesTags: (result, error, { messageId }) =>
-        result ? [{ type: "Messages", messageId }] : [],
+        result ? [{ type: "Messages", id: "LIST" }] : [],
     }),
 
     getMessage: builder.query({
@@ -267,7 +267,7 @@ export const apiSlice = createApi({
       }),
       // force messages list (in channel details) and messages details page to refetch
       invalidatesTags: (result, error, { messageId }) =>
-        result ? [{ type: "Messages", messageId }] : [],
+        result ? [{ type: "Messages", id: messageId }] : [],
     }),
 
     createMessage: builder.mutation({

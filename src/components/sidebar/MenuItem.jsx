@@ -11,7 +11,8 @@ import { NavLink } from "react-router-dom";
 function MenuItem({ linkTo, iconElement, title }) {
   const { closeSidebar } = useContext(sidebarState);
 
-  // NavLink accepts callback for className prop. to customize the class name for active and pending state
+  // NavLink accepts callback for className prop. 
+  // to customize the class name for active and pending state
   const classNameCallback = ({ isActive }) => {
     return classnames(styles.link, {
       [styles.active]: isActive,

@@ -1,8 +1,17 @@
 @use '../../../assets/scss/vars';
 
-.toolbar {
+.Toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  flex-wrap: wrap;
+
+  position: sticky;
+  top: vars.$topbar-height;
+
   min-height: 2.6rem;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
   font-size: 1rem;
 
   border: 1px solid #bbb;
@@ -12,4 +21,51 @@
   border-top-right-radius: vars.$border-radius;
 
   background-color: rgb(235, 235, 235);
+}
+
+.verticalSeparator {
+  height: 1.8rem;
+  width: 3px;
+  padding: 0 1px;
+  background-color: #bbb;
+  background-clip: content-box;
+}
+
+.rtlButton, .ltrButton {
+  font-size: 0.8rem !important;
+}
+
+.textColorButton, .backgroundColorButton {
+  font-size: 1.1rem !important;
+  color: #444 !important;
+}
+
+.linkButton {
+  font-size: 1.1rem !important;
+}
+
+.importButton {
+  font-size: 1.2rem !important;
+}
+.exportButton {
+  font-size: 1.2rem !important;
+}
+
+.placeholder {
+  position: absolute;
+  top: 0;
+  color: rgba(0, 0, 0, 0.5);
+
+  &.default {
+    right: 0.55rem;
+    // top: 2.6rem + 0.5rem;
+    top: calc(100% + 0.45rem);
+
+    // user-select: none;
+    pointer-events: none;
+
+    font-size: 1rem;
+    line-height: 1.8;
+    // z-index: -1;
+  }
 }

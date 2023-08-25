@@ -15,13 +15,20 @@ import {
 
 import Button, { NavLinkButton } from "../../../components/shared/Button";
 import TextOverflow from "../../../components/shared/TextOverflow";
-import { WarningModal } from "../../../components/shared/Modal";
+import {
+  WarningModal,
+  MessageDeleteWarning,
+} from "../../../components/shared/Modal";
 
 import { BsInfoSquare } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 import { toast } from "react-toastify";
-import { resolvedToastOptions } from "../../../components/shared/CustomToastContainer";
+import {
+  resolvedToastOptions,
+  MessageSuccessToast,
+  MessageErrorToast,
+} from "../../../components/shared/CustomToastContainer";
 
 import { toPersianDateStr } from "../../../utilities/utilities";
 
@@ -36,7 +43,7 @@ function MessageTitle({ data: message }) {
 }
 
 function MessageBody({ data: message }) {
-  return <TextOverflow>{message?.body}</TextOverflow>;
+  return <TextOverflow>{message?.bodyRawPreview}...</TextOverflow>;
 }
 
 function CreatedAt({ data: message }) {
@@ -95,7 +102,9 @@ function Actions({ data: message }) {
       <NavLinkButton
         title="مشاهده/ویرایش"
         className={styles.detailsBtn}
-        to={`/channels/${message?.channel?.identifier}/messages/${message?._id || ""}`}
+        to={`/channels/${message?.channel?.identifier}/messages/${
+          message?._id || ""
+        }`}
       >
         <BsInfoSquare />
       </NavLinkButton>
@@ -106,7 +115,7 @@ function Actions({ data: message }) {
       )}
       <WarningModal
         data={message}
-        WarningParagraph={WarningParagraph}
+        WarningParagraph={MessageDeleteWarning}
         isModalOpen={isModalOpen}
         closeModal={closeModal}
         onConfirmClick={submitDelete}
@@ -118,48 +127,8 @@ function Actions({ data: message }) {
 
 // header components
 function HeaderColumn({ className, title }) {
-  return <h2 className={className + ' ' + styles.colName}>{title}</h2>;
+  return <h2 className={className + " " + styles.colName}>{title}</h2>;
 }
-
-// other components
-// also use by message details
-export const WarningParagraph = ({ data: message }) => (
-  <>
-    <p className={styles.modalWarningText}>آیا از حذف این پیام مطمئن هستید؟</p>
-    <p className={styles.modalWarningText}>
-      <span className={styles.specialText}>{message?.title}</span>
-    </p>
-  </>
-);
-
-export const MessageSuccessToast = ({ messageTitle, crudOperationType }) => {
-  const messageSlice = `پیام ${messageTitle} با موفقیت `;
-  const whatHappened =
-    crudOperationType === "added"
-      ? messageSlice + "افزوده شد."
-      : crudOperationType === "edited"
-      ? messageSlice + "ویرایش شد."
-      : crudOperationType === "deleted"
-      ? messageSlice + "حذف شد."
-      : "عملیات با موفقیت انجام شد";
-  return <p>{whatHappened}</p>;
-};
-
-export const MessageErrorToast = ({ err }) => {
-  const errorMessage = err?.message;
-  const errorDetails =
-    err?.responseData?.title ?? // title field of message
-    err?.responseData?.body ?? // body field of message
-    err?.responseData?.messagePersian ?? // persian translation of server error message
-    err?.responseData?.message; // server error message
-
-  return (
-    <>
-      <p>{errorMessage}</p>
-      <pre className={styles.toastErrorDetails}>{errorDetails}</pre>
-    </>
-  );
-};
 
 export const config = {
   tableInstanceName: tableInstanceNames.messagesOfChannel,

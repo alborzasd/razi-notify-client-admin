@@ -24,13 +24,20 @@ import channelLogo from "../../assets/images/channel-logo.png";
 
 import Button, { NavLinkButton } from "../../components/shared/Button";
 import TextOverflow from "../../components/shared/TextOverflow";
-import { WarningModal } from "../../components/shared/Modal";
+import {
+  WarningModal,
+  ChannelDeleteWarning,
+} from "../../components/shared/Modal";
 
 import { BsInfoSquare } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 import { toast } from "react-toastify";
-import { resolvedToastOptions } from "../../components/shared/CustomToastContainer";
+import {
+  resolvedToastOptions,
+  ChannelSuccessToast,
+  ChannelErrorToast,
+} from "../../components/shared/CustomToastContainer";
 
 import { toPersianDateStr } from "../../utilities/utilities";
 
@@ -142,7 +149,7 @@ function Actions({ data }) {
       )}
       <WarningModal
         data={data}
-        WarningParagraph={WarningParagraph}
+        WarningParagraph={ChannelDeleteWarning}
         isModalOpen={isModalOpen}
         closeModal={closeModal}
         onConfirmClick={submitDelete}
@@ -154,53 +161,8 @@ function Actions({ data }) {
 
 // header components
 function HeaderColumn({ className, title }) {
-  return <h2 className={className + ' ' + styles.colName}>{title}</h2>;
+  return <h2 className={className + " " + styles.colName}>{title}</h2>;
 }
-
-// other components
-// also use by channel details
-export const WarningParagraph = ({ data }) => (
-  <>
-    <p className={styles.modalWarningText}>
-      با حذف این کانال، محتوا و پیام های آن نیز پاک خواهد شد.
-    </p>
-    <p className={styles.modalWarningText}>
-      <span>آیا از حذف کانال</span>&nbsp;
-      <span className={styles.specialText}>{data?.title}</span>&nbsp;
-      <span>مطمئن هستید؟</span>
-    </p>
-  </>
-);
-
-export const ChannelSuccessToast = ({ channelTitle, crudOperationType }) => {
-  const messageSlice = `کانال ${channelTitle} با موفقیت `;
-  const whatHappened =
-    crudOperationType === "added"
-      ? messageSlice + "افزوده شد."
-      : crudOperationType === "edited"
-      ? messageSlice + "ویرایش شد."
-      : crudOperationType === "deleted"
-      ? messageSlice + "حذف شد."
-      : "عملیات با موفقیت انجام شد";
-  return <p>{whatHappened}</p>;
-};
-
-export const ChannelErrorToast = ({ err }) => {
-  const errorMessage = err?.message;
-  const errorDetails =
-    err?.responseData?.title ??
-    err?.responseData?.identifier ??
-    err?.responseData?.description ??
-    err?.responseData?.messagePersian ??
-    err?.responseData?.message;
-
-  return (
-    <>
-      <p>{errorMessage}</p>
-      <pre className={styles.toastErrorDetails}>{errorDetails}</pre>
-    </>
-  );
-};
 
 export const config = {
   tableInstanceName: tableInstanceNames.channels,

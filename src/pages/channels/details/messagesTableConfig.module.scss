@@ -42,7 +42,8 @@ $column-gap: 0.5rem;
   width: $width;
   column-gap: $column-gap;
 
-  background-color: vars.$messages-table-header-color;
+  // background-color: vars.$messages-table-header-color;
+  border-top: 3px solid vars.$messages-table-header-color;
   // color: #fff;
 }
 .tableRow {
@@ -51,14 +52,4 @@ $column-gap: 0.5rem;
   min-width: $min-width;
   width: $width;
   column-gap: $column-gap;
-}
-
-.modalWarningText {
-
-  font-size: 1.1rem;
-  margin-bottom: 0.7rem;
-
-  .specialText {
-      color: vars.$danger-color;
-  }
 }
