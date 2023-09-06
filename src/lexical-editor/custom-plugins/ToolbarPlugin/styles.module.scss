@@ -21,6 +21,17 @@
   border-top-right-radius: vars.$border-radius;
 
   background-color: rgb(235, 235, 235);
+
+  // if editor is empty
+  // we want to unset position sticky from toolbar
+  // because in empty state, placeholder is shown
+  // and moves down with the toolbar (if sticky)
+  // and if toolbar reaches down, 
+  // the placeholder will be shown outside of content editable
+  &.noSticky {
+    position: relative;
+    top: 0;
+  }
 }
 
 .verticalSeparator {

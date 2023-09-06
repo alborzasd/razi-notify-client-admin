@@ -1,0 +1,225 @@
+@use "../../assets/scss/vars";
+
+$department-item-min-width: 320px;
+
+.Departments {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "cardTitle"
+    "departmentList";
+  gap: 1rem;
+}
+
+.cardTitle {
+  grid-area: cardTitle;
+
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+
+  color: #333;
+  font-size: 1.3rem;
+
+  .titleIcon {
+    font-size: 1.4rem;
+  }
+}
+
+.departmentList {
+  display: grid;
+  // grid-auto-flow: column;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax($department-item-min-width, 1fr)
+  );
+  gap: 1rem;
+
+  // display: flex;
+  // flex-wrap: wrap;
+  // gap: 1rem;
+}
+
+/////////////////
+
+.DepartmentItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.5rem;
+
+  min-width: $department-item-min-width;
+  height: 130px;
+  padding: 0.25rem;
+
+  border-radius: vars.$border-radius;
+
+  background-color: #fff;
+  box-shadow: vars.$box-shadow-data-table;
+
+  position: relative; // for mini buttons container
+
+  &.editableDisplayMode {
+    &:hover .miniButtonsContainer {
+      // display: grid;
+      opacity: 0.85;
+    }
+  }
+}
+
+.miniButtonsContainer {
+  // display: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+
+  position: absolute;
+  bottom: 0.25rem;
+  left: 0.25rem;
+
+  background-color: #fff;
+
+  opacity: 0;
+  transition: 0.25s;
+
+  .button {
+    padding: 0.1rem;
+    background: none;
+    font-size: 1.1rem;
+  }
+
+  .editButton {
+    border: 2px solid vars.$secondary-color;
+    color: darken(vars.$secondary-color, 10);
+    &:hover {
+      color: #fff;
+      background-color: vars.$secondary-color;
+    }
+  }
+  .deleteButton {
+    border: 2px solid vars.$danger-color;
+    color: vars.$danger-color;
+    &:hover {
+      color: #fff;
+      background-color: vars.$danger-color;
+    }
+  }
+}
+
+.image {
+  width: 120px;
+  height: 120px;
+
+  border: 1px solid #bbb;
+  border-radius: vars.$border-radius;
+}
+
+.body {
+  display: grid;
+  grid-template-rows: 3fr 1fr 1fr;
+
+  $card-title-line-height: 1.5rem;
+  $card-title-max-line: 3;
+  .title {
+    display: flex;
+    // align-items: center;
+    // gap: 2rem;
+
+    overflow: hidden;
+
+    .titleValue {
+      font-weight: 500;
+      word-wrap: break-word;
+      overflow: hidden;
+
+      line-height: $card-title-line-height;
+      max-height: calc($card-title-line-height * $card-title-max-line);
+    }
+  }
+
+  .info {
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .icon {
+    vertical-align: sub;
+    margin-left: 0.2rem;
+  }
+  .departmentIcon {
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+  .userIcon {
+    font-size: 1.05rem;
+  }
+  .channelIcon {
+    font-size: 1.1rem;
+  }
+}
+
+.bodyEditable {
+  display: grid;
+  grid-template-rows: 3.5fr 2fr;
+  grid-template-columns: 1fr 1fr;
+  // row-gap: 1rem;
+  column-gap: 0.5rem;
+  grid-template-areas:
+    "titleInput titleInput"
+    "cancelButton editButton";
+
+  .titleInput {
+    grid-area: titleInput;
+
+    resize: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.1rem 0.5rem;
+    border: 1px solid #bbb;
+    border-radius: vars.$border-radius;
+    
+    transition: 0.05s;
+    &:focus {
+      outline: vars.$input-focus-outline;
+    }
+  }
+
+  .button {
+    padding: 0;
+    background: none;
+    font-size: 0.9rem;
+
+    margin-top: 0.5rem;
+  }
+
+  .cancelButton {
+    grid-area: cancelButton;
+
+    border: 1px solid vars.$danger-color;
+    color: vars.$danger-color;
+    &:hover {
+      color: #fff;
+      background-color: vars.$danger-color;
+    }
+  }
+  .submitEditButton {
+    grid-area: editButton;
+
+    border: 1px solid vars.$secondary-color;
+    color: darken(vars.$secondary-color, 10);
+    &:hover {
+      color: #fff;
+      background-color: vars.$secondary-color;
+    }
+  }
+  .submitAddButton {
+    grid-row-start: 2;
+    grid-column: 1 / span 2;
+
+    border: 1px solid vars.$success-color;
+    color: vars.$success-color;
+    &:hover {
+        color: #fff;
+        background-color: vars.$success-color;
+    }
+  }
+}

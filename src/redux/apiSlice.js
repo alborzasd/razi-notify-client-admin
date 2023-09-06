@@ -9,9 +9,15 @@ import {
   transformResponseForGetUsersOfChannelTable,
 } from "./usersSlice";
 
-const axiosBaseQuery = async ({ url, method, data, params }) => {
+const axiosBaseQuery = async ({ url, method, data, params, headers }) => {
   try {
-    const response = await axiosApiInstance({ url, method, data, params });
+    const response = await axiosApiInstance({
+      url,
+      method,
+      data,
+      params,
+      headers,
+    });
     // baseQuery option expects this custom callback return {data:...} or {error:...} object
     return {
       // successful response in axios has a `data` field
@@ -58,10 +64,12 @@ const axiosBaseQuery = async ({ url, method, data, params }) => {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: axiosBaseQuery,
-  tagTypes: ["Channels", "Messages", "Users", "UsersOfChannel"],
+  tagTypes: ["Channels", "Messages", "Users", "UsersOfChannel", "Departments"],
 
   endpoints: (builder) => ({
-    // queries for table instances
+    /////////////////////////////////////////////////////////////////////////
+    // queries for channels
+
     getChannels: builder.query({
       query: (filterConfig) => ({
         url: "/channels",
@@ -99,7 +107,12 @@ export const apiSlice = createApi({
       query: (id) => ({ url: `/channels/${id}`, method: "delete" }),
       // force channel list and channel details page to refetch
       invalidatesTags: (result, error, id) =>
-        result ? [{ type: "Channels", id: "LIST" }] : [],
+        result
+          ? [
+              { type: "Channels", id: "LIST" },
+              { type: "Departments", id: "LIST" },
+            ]
+          : [],
     }),
 
     getChannelByIdentifier: builder.query({
@@ -127,7 +140,12 @@ export const apiSlice = createApi({
       query: (body) => ({ url: "/channels", method: "post", data: body }),
       // force channel list to refetch (if result was successful)
       invalidatesTags: (result) =>
-        result ? [{ type: "Channels", id: "LIST" }] : [],
+        result
+          ? [
+              { type: "Channels", id: "LIST" },
+              { type: "Departments", id: "LIST" },
+            ]
+          : [],
     }),
 
     getMyOwnChannels: builder.query({
@@ -148,7 +166,8 @@ export const apiSlice = createApi({
           : [{ type: "Channels", id: "LIST" }],
     }),
 
-    ///////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    // queries for users (mutate single user)
 
     getUsers: builder.query({
       query: (filterConfig) => ({
@@ -215,7 +234,8 @@ export const apiSlice = createApi({
         result ? [{ type: "Users", id: "LIST" }] : [],
     }),
 
-    ///////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    // queries for messages
 
     getMessagesOfChannel: builder.query({
       query: ({ channelId, ...filterConfig }) => ({
@@ -281,7 +301,7 @@ export const apiSlice = createApi({
         result ? [{ type: "Messages", id: "LIST" }] : [],
     }),
 
-    ///////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
 
     getUsersOfChannel: builder.query({
       query: ({ channelId, ...filterConfig }) => ({
@@ -305,11 +325,19 @@ export const apiSlice = createApi({
 
     /////////////////////////////////////////////////////////////////////////
     // queries for table search dropdown instances
+
     getDepartments: builder.query({
       query: () => ({
         url: "/departments",
         method: "get",
       }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ _id }) => ({ type: "Departments", id: _id })),
+              { type: "Departments", id: "LIST" },
+            ]
+          : [{ type: "Departments", id: "LIST" }],
     }),
     getSystemRoles: builder.query({
       query: () => ({
@@ -376,7 +404,12 @@ export const apiSlice = createApi({
         data: { users },
       }),
       invalidatesTags: (result) =>
-        result ? [{ type: "Users", id: "LIST" }] : [],
+        result
+          ? [
+              { type: "Users", id: "LIST" },
+              { type: "Departments", id: "LIST" },
+            ]
+          : [],
     }),
 
     editManyUsers: builder.mutation({
@@ -393,6 +426,7 @@ export const apiSlice = createApi({
                 id: _id,
               })),
               { type: "Users", id: "LIST" },
+              { type: "Departments", id: "LIST" },
             ]
           : [],
     }),
@@ -411,8 +445,79 @@ export const apiSlice = createApi({
                 id: _id,
               })),
               { type: "Users", id: "LIST" },
+              { type: "Departments", id: "LIST" },
             ]
           : [],
+    }),
+
+    /////////////////////////////////////////////////////////////////////////
+    // queries for departments (main page)
+
+    getDepartmentsReport: builder.query({
+      query: () => ({
+        url: "/departments/report",
+        method: "get",
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ _id }) => ({ type: "Departments", id: _id })),
+              { type: "Departments", id: "LIST" },
+            ]
+          : [{ type: "Departments", id: "LIST" }],
+    }),
+
+    createDepartment: builder.mutation({
+      query: (body) => ({
+        url: "/departments",
+        method: "post",
+        data: body,
+      }),
+      invalidatesTags: (result) =>
+        result ? [{ type: "Departments", id: "LIST" }] : [],
+    }),
+
+    editDepartment: builder.mutation({
+      query: ({ departmentId, ...body }) => ({
+        url: `/departments/${departmentId}`,
+        method: "patch",
+        data: body,
+      }),
+      invalidatesTags: (result, error, { departmentId }) =>
+        result ? [{ type: "Departments", id: departmentId }] : [],
+    }),
+
+    deleteDepartment: builder.mutation({
+      query: ({ departmentId }) => ({
+        url: `/departments/${departmentId}`,
+        method: "delete",
+      }),
+      invalidatesTags: (result) =>
+        result ? [{ type: "Departments", id: "LIST" }] : [],
+    }),
+
+    editDepartmentProfileImage: builder.mutation({
+      query: ({ departmentId, body }) => ({
+        url: `/departments/${departmentId}/profile-image`,
+        method: "patch",
+        data: body,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }),
+      invalidatesTags: (result, error, { departmentId }) =>
+        result ? [{ type: "Departments", id: departmentId }] : [],
+    }),
+
+    deleteDepartmentProfileImage: builder.mutation({
+      query: ({ departmentId }) => ({
+        url: `/departments/${departmentId}/profile-image`,
+        method: "delete",
+      }),
+      // it removes profile image of specific departmentId
+      // so it invalidates specific tag id
+      invalidatesTags: (result, error, { departmentId }) =>
+        result ? [{ type: "Departments", id: departmentId }] : [],
     }),
   }),
 });
@@ -454,4 +559,11 @@ export const {
   useAddManyUsersMutation,
   useEditManyUsersMutation,
   useDeleteManyUsersMutation,
+
+  useGetDepartmentsReportQuery,
+  useCreateDepartmentMutation,
+  useEditDepartmentMutation,
+  useDeleteDepartmentMutation,
+  useEditDepartmentProfileImageMutation,
+  useDeleteDepartmentProfileImageMutation,
 } = apiSlice;

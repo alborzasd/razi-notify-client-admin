@@ -145,3 +145,38 @@ export const UserErrorToast = ({ err }) => {
     </>
   );
 };
+
+export const DepartmentSuccessToast = ({
+  departmentTitle,
+  isImage,
+  crudOperationType,
+}) => {
+  let messageSlice = `دانشکده/بخش ${departmentTitle} با موفقیت `;
+  if(isImage) {
+    messageSlice = "تصویر" + " " + messageSlice;
+  }
+  const whatHappened =
+    crudOperationType === "added"
+      ? messageSlice + "افزوده شد."
+      : crudOperationType === "edited"
+      ? messageSlice + "ویرایش شد."
+      : crudOperationType === "deleted"
+      ? messageSlice + "حذف شد."
+      : "عملیات با موفقیت انجام شد";
+  return <p>{whatHappened}</p>;
+};
+
+export const DepartmentErrorToast = ({ err }) => {
+  const errorMessage = err?.message;
+  const errorDetails =
+    err?.responseData?.title ??
+    err?.responseData?.messagePersian ??
+    err?.responseData?.message;
+
+  return (
+    <>
+      <p>{errorMessage}</p>
+      <pre>{errorDetails}</pre>
+    </>
+  );
+};

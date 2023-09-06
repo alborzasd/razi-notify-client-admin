@@ -50,6 +50,8 @@ import { RiSave3Fill } from "react-icons/ri";
 import { LiaFileUploadSolid } from "react-icons/lia";
 import { AiOutlineLink } from "react-icons/ai";
 
+import generateClassNames from "classnames";
+
 function ToolbarPlugin({ classNames, isEditable, namespace }) {
   const [editor] = useLexicalComposerContext();
 
@@ -96,7 +98,7 @@ function ToolbarPlugin({ classNames, isEditable, namespace }) {
       // render placeholder
       const rootChildren = root.getChildren();
       const firstChild = rootChildren[0];
-      if (firstChild?.isEmpty() === false) {
+      if (firstChild?.isEmpty() === false || rootChildren?.length > 1) {
         setShowPlaceholder(false);
       } else {
         setShowPlaceholder(true);
@@ -263,8 +265,15 @@ function ToolbarPlugin({ classNames, isEditable, namespace }) {
     });
   }, [editor, $updateToolbar]);
 
+  const toolbarClassName = generateClassNames(styles.Toolbar, classNames?.container, {
+    // if editor is empty
+    // showPlaceholder will be true
+    // and we want to unset position sticky
+    [styles.noSticky]: showPlaceholder
+  });
+
   return (
-    <div className={styles.Toolbar + " " + classNames?.container}>
+    <div className={toolbarClassName}>
       <ToolbarButton
         isActivated={isBoldActivated}
         // setIsActivated={setIsBoldActivated}

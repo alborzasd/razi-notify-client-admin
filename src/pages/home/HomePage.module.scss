@@ -3,9 +3,13 @@
   // grid-template-rows: auto auto;
   // row-gap: 1rem;
   grid-template-columns: 95%;
+  grid-template-rows: auto 1fr;
+  row-gap: 4rem;
   justify-content: center; // div.container margin:auto
 
   padding: 1.5rem 0;
 
-  overflow-x: hidden;
+  // should be disabled
+  // otherwise the sticky position for editor toolbar will not be enabled
+  // overflow-x: hidden;
 }

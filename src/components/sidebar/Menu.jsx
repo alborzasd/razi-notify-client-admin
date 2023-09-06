@@ -38,11 +38,11 @@ function Menu() {
           iconElement={<FiUsers />}
           title="مدیریت کاربران"
         />
-        <MenuItem
+        {/* <MenuItem
           linkTo="/requests"
           iconElement={<LiaHandPaperSolid className={styles.requestsIcon} />}
           title={<RequestsMenuItem />}
-        />
+        /> */}
         <MenuItem
           linkTo="/temp-users"
           iconElement={

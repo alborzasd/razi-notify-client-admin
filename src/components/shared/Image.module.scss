@@ -1,0 +1,43 @@
+@use '../../assets/scss/vars';
+
+.Image {
+  object-fit: cover;
+}
+
+/////////////////////////////
+
+.ImagePicker {
+  overflow: hidden;
+  position: relative; // for button
+  cursor: pointer;
+
+  .image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+
+    padding: 0;
+    // height: 2rem;
+    border: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: rgba(#000, 0.5);
+    color: #fff;
+    font-size: 1.3rem;
+    // width: 50%;
+
+    // move down 100% of the height of itself (button not parent)
+    transform: translateY(100%);
+  }
+
+  &:hover .button {
+    transform: translateY(0);
+  }
+}

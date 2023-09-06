@@ -205,3 +205,8 @@ export const canCurrentUserModifyThisUser = createSelector(
     (currentUser?.system_role === "department_admin" &&
       currentUser?.department_id === thisUser?.department_id)
 );
+
+export const canUserModifyDepartment = createSelector(
+  selectIsUserRootAdmin,
+  (isUserRootAdmin) => isUserRootAdmin
+);
