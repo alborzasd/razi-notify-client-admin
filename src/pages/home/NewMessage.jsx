@@ -116,7 +116,7 @@ function NewMessage() {
         body: messageJsonStr,
         bodyRawPreview: messageRawText.substring(0, 100),
         // send to sms service
-        bodyRaw: isSmsEnabled ? messageRawText : "",
+        der_bodyRaw: messageRawText,
         smsEnabled: isSmsEnabled,
       }).unwrap();
       toast.success(

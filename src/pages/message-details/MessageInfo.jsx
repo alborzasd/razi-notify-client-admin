@@ -185,7 +185,7 @@ function MessageInfo() {
         body: messageBodyJsonStr,
         bodyRawPreview: messageBodyRawText.substring(0, 100),
         // send to sms service
-        bodyRaw: isSmsEnabled ? messageBodyRawText : "",
+        der_bodyRaw: messageBodyRawText,
         smsEnabled: isSmsEnabled?.current,
       }).unwrap();
 
